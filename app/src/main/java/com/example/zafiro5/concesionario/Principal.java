@@ -38,7 +38,7 @@ public class Principal extends AppCompatActivity implements OnClickListener, OnI
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         //setting the title
-        toolbar.setTitle("Tienda Virtual");
+        toolbar.setTitle("Concesionario");
 
         //placing toolbar in place of actionbar
         setSupportActionBar(toolbar);
@@ -90,5 +90,15 @@ public class Principal extends AppCompatActivity implements OnClickListener, OnI
         }//fin switch
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

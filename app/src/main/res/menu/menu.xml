@@ -12,5 +12,5 @@
 
     <item
         android:id="@+id/menu_extras"
-        android:title="Modificar - Seleccionado" />
+        android:title="Extras" />
 </menu>
