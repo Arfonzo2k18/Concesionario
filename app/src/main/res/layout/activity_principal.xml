@@ -13,14 +13,31 @@
         tools:layout_editor_absoluteY="16dp"
         tools:ignore="MissingConstraints">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:tint="@color/colorBlanco"
+            app:titleTextColor="#fff" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/my_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:tint="@android:color/white"
+            android:src="@drawable/ic_aniadir"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabSize="mini" />
 
         <ListView
             android:id="@+id/lsvListado"

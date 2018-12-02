@@ -1,5 +1,10 @@
 package com.example.zafiro5.concesionario;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -50,6 +55,16 @@ public class Principal extends AppCompatActivity implements OnClickListener, OnI
         adapter = new AdaptadorCoches(this, arrayCoches);
         this.lsvListado.setAdapter(adapter);
         lsvListado.setOnItemClickListener(this);
+
+        FloatingActionButton fab = findViewById(R.id.my_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Se han cargado todos los datos en el listado nuevamente.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+            }
+        });
 
     }
 
