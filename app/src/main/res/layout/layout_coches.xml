@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/codigoCoche"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="3dp"
+        android:text="Cod_cliente:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/txvCod"
+        android:layout_width="112dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/codigoCoche"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="0dp"
+        android:padding="3dp"
+        android:text="1"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/marcaCoche"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="3dp"
+        android:text="Nombre:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/txvMarca"
+        android:layout_width="112dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/marcaCoche"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="0dp"
+        android:padding="3dp"
+        android:text="Miguel"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/usado"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="3dp"
+        android:text="Direccion"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/txvUsado"
+        android:layout_width="112dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/usado"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="5dp"
+        android:padding="3dp"
+        android:text="C/ Matrona"
+        android:textColor="@color/colorPrimary" />
+
+    <ImageView
+        android:id="@+id/imvImagen"
+        android:layout_width="105dp"
+        android:layout_height="71dp"
+        android:layout_alignTop="@+id/codigoCoche"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="32dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+</RelativeLayout>

@@ -1,6 +1,5 @@
 package com.example.zafiro5.concesionario;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,21 +17,16 @@ import java.util.ArrayList;
 
 public class Principal extends AppCompatActivity implements OnClickListener, OnItemClickListener {
 
-    ArrayList<RellenarListView> arrayCoches = new ArrayList<RellenarListView>();
-
-    private ControladorBaseDeDatos MBD;
+    ArrayList<Coche> arrayCoches = new ArrayList<Coche>();
 
     private ListView lsvListado;
 
-    private Adaptador adapter;
+    private AdaptadorCoches adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-
-        lsvListado = (ListView) findViewById(R.id.lsvListado);
-        lsvListado.setOnItemClickListener(this);
 
         //getting the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,22 +37,16 @@ public class Principal extends AppCompatActivity implements OnClickListener, OnI
         //placing toolbar in place of actionbar
         setSupportActionBar(toolbar);
 
-        MBD= new ControladorBaseDeDatos(getApplicationContext());
+        this.lsvListado = (ListView) findViewById(R.id.lsvListado);
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        arrayCoches = databaseAccess.todos_los_coches_nuevos();
+        databaseAccess.close();
 
+        adapter = new AdaptadorCoches(this, arrayCoches);
+        this.lsvListado.setAdapter(adapter);
+        lsvListado.setOnItemClickListener(this);
 
-        arrayClientes=MBD.todos_los_clientes();
-        adapter = new Adaptador(this, arrayClientes);
-        lsvListado.setAdapter(adapter);
-
-        FloatingActionButton fab = findViewById(R.id.my_fab);
-        fab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Se han cargado todos los datos en el listado nuevamente.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-            }
-        });
     }
 
     //método para insertar el menu en la actividad
