@@ -23,13 +23,13 @@
 
 
         <ListView
-        android:id="@+id/lsvListado"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp" />
+            android:id="@+id/lsvListado"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp" />
 
     </RelativeLayout>
 

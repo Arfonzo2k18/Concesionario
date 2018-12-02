@@ -65,20 +65,14 @@ public class DatabaseAccess {
         //Array donde se devuelven todos los libros
         ArrayList<Coche> arrayCochesNuevos = new ArrayList<Coche>();
 
-
-        //definimos la sentencia sql en una cadena
-        // String[] valores_recuperar = {"cod_provincia", "nombre_provincia", "num_habitantes"};
-
-        //Ejecutamos la cadena
-        //c = database.query("provincia", valores_recuperar,null, null, null, null, null, null);
-        c = database.rawQuery(" SELECT id_coche, marca, imagen, precio, descripcion, nuevo FROM coches WHERE nuevo = 1", null);
+        c = database.rawQuery("SELECT id_coche, marca, modelo, imagen, precio, descripcion, nuevo FROM coches WHERE nuevo = 1", null);
 
         //Nos aseguramos de que existe al menos un registro
         if (c.moveToFirst()) {
             //Recorremos el cursor hasta que no haya más registros
             do {
 
-                arrayCochesNuevos.add(new Coche(c.getInt(0),c.getString(1),c.getBlob(2),c.getDouble(3),c.getString(4),c.getInt(5)));
+                arrayCochesNuevos.add(new Coche(c.getInt(0),c.getString(1),c.getString(2),c.getBlob(3),c.getDouble(4),c.getString(5),c.getInt(6)));
 
             } while(c.moveToNext());
         }
@@ -87,21 +81,53 @@ public class DatabaseAccess {
 
         //devolvemos el array
         return arrayCochesNuevos;
+    }
 
+    ArrayList<Coche> todos_los_coches_usados()
+    {
+        Cursor c;
+        //Array donde se devuelven todos los libros
+        ArrayList<Coche> arrayCochesUsados = new ArrayList<Coche>();
 
-    }//fin numero_de_libros
+        c = database.rawQuery(" SELECT id_coche, marca, modelo, imagen, precio, descripcion, nuevo FROM coches WHERE nuevo = 0", null);
 
-    /*ejemplo de lectura de un select no es de esta base
-    public List<String> getQuotes() {
-        List<String> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM quotes", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            list.add(cursor.getString(0));
-            cursor.moveToNext();
+        //Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+
+                arrayCochesUsados.add(new Coche(c.getInt(0),c.getString(1),c.getString(2),c.getBlob(3),c.getDouble(4),c.getString(5),c.getInt(6)));
+
+            } while(c.moveToNext());
         }
-        cursor.close();
-        return list;
-    }*/
+        //cerramos el cursor
+        c.close();
+
+        //devolvemos el array
+        return arrayCochesUsados;
+    }
+
+    ArrayList<Extra> todos_los_extras(){
+        Cursor c;
+        //Array donde se devuelven todos los libros
+        ArrayList<Extra> arrayExtras = new ArrayList<Extra>();
+
+        c = database.rawQuery("SELECT * FROM extras", null);
+
+        //Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+
+                arrayExtras.add(new Extra(c.getInt(0),c.getString(1),c.getDouble(2)));
+
+            } while(c.moveToNext());
+        }
+        //cerramos el cursor
+        c.close();
+
+        //devolvemos el array
+        return arrayExtras;
+    }
 }
 

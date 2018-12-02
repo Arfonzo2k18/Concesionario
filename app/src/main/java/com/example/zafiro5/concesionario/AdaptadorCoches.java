@@ -26,17 +26,17 @@ public class AdaptadorCoches extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return items.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public Object getItem(int arg0) {
+        return items.get(arg0);
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -51,14 +51,19 @@ public class AdaptadorCoches extends BaseAdapter {
 
         Coche dir = items.get(position);
 
-        TextView txvCod_coche = (TextView) v.findViewById(R.id.txvCod);
-        txvCod_coche.setText(String.valueOf(dir.getCod_coche()));
-
         TextView txvMarca_coche = (TextView) v.findViewById(R.id.txvMarca);
         txvMarca_coche.setText(dir.getMarca_coche());
 
-        TextView txvUsado = (TextView) v.findViewById(R.id.txvUsado);
-        txvUsado.setText(String.valueOf(dir.getCoche_usado()));
+        TextView txvModelo_coche = (TextView) v.findViewById(R.id.txvModelo);
+        txvModelo_coche.setText(dir.getModelo_coche());
+
+        if(dir.getCoche_usado() == 1) {
+            TextView txvUsado = (TextView) v.findViewById(R.id.txvUsado);
+            txvUsado.setText("No");
+        } else {
+            TextView txvUsado = (TextView) v.findViewById(R.id.txvUsado);
+            txvUsado.setText("Si");
+        }
 
         ByteArrayInputStream imageStream = new ByteArrayInputStream(dir.getImagen_coche());
         Bitmap imagen= BitmapFactory.decodeStream(imageStream);

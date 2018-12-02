@@ -6,37 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/codigoCoche"
-        android:layout_width="115dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/colorPrimaryDark"
-        android:padding="3dp"
-        android:text="Marca:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@android:color/white" />
-
-    <TextView
-        android:id="@+id/txvMarca"
-        android:layout_width="112dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/codigoCoche"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginLeft="130dp"
-        android:layout_marginTop="0dp"
-        android:padding="3dp"
-        android:text="1"
-        android:textColor="@color/colorPrimary" />
-
-    <TextView
-        android:id="@+id/marcaCoche"
+        android:id="@+id/nombreExtra"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -46,15 +16,15 @@
         android:layout_marginTop="30dp"
         android:background="@color/colorPrimaryDark"
         android:padding="3dp"
-        android:text="Modelo:"
+        android:text="Nombre Extra:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/txvModelo"
-        android:layout_width="112dp"
+        android:id="@+id/txvNombreExtra"
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/marcaCoche"
+        android:layout_alignTop="@+id/nombreExtra"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginStart="130dp"
@@ -65,7 +35,7 @@
         android:textColor="@color/colorPrimary" />
 
     <TextView
-        android:id="@+id/usado"
+        android:id="@+id/precio_extra"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -76,15 +46,15 @@
         android:layout_marginBottom="5dp"
         android:background="@color/colorPrimaryDark"
         android:padding="3dp"
-        android:text="Usado:"
+        android:text="Precio:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/txvUsado"
-        android:layout_width="112dp"
+        android:id="@+id/txvPrecio"
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/usado"
+        android:layout_alignTop="@+id/precio_extra"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginStart="130dp"
@@ -94,15 +64,5 @@
         android:padding="3dp"
         android:text="C/ Matrona"
         android:textColor="@color/colorPrimary" />
-
-    <ImageView
-        android:id="@+id/imvImagen"
-        android:layout_width="113dp"
-        android:layout_height="77dp"
-        android:layout_alignTop="@+id/codigoCoche"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="0dp"
-        tools:srcCompat="@tools:sample/avatars" />
 
 </RelativeLayout>

@@ -19,9 +19,13 @@ public class Principal extends AppCompatActivity implements OnClickListener, OnI
 
     ArrayList<Coche> arrayCoches = new ArrayList<Coche>();
 
+    ArrayList<Extra> arrayExtras = new ArrayList<Extra>();
+
     private ListView lsvListado;
 
     private AdaptadorCoches adapter;
+
+    private AdaptadorExtras adapterExtras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +71,35 @@ public class Principal extends AppCompatActivity implements OnClickListener, OnI
         {
             case R.id.menu_coches_nuevos:
                 Log.i("Coches Nuevos", "Has pulsado Coches Nuevos");
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+                databaseAccess.open();
+                arrayCoches = databaseAccess.todos_los_coches_nuevos();
+                databaseAccess.close();
+
+                adapter = new AdaptadorCoches(this, arrayCoches);
+                this.lsvListado.setAdapter(adapter);
+
                 break;
             case R.id.menu_coches_usados:
                 Log.i("Coches Usados", "Has pulsado Coches Usados");
+                DatabaseAccess databaseAccessUsados = DatabaseAccess.getInstance(this);
+                databaseAccessUsados.open();
+                arrayCoches = databaseAccessUsados.todos_los_coches_usados();
+                databaseAccessUsados.close();
+
+                adapter = new AdaptadorCoches(this, arrayCoches);
+                this.lsvListado.setAdapter(adapter);
 
                 break;
             case R.id.menu_extras:
                 Log.i("Extras", "Has pulsado Extras");
+                DatabaseAccess databaseAccessExtras = DatabaseAccess.getInstance(this);
+                databaseAccessExtras.open();
+                arrayExtras = databaseAccessExtras.todos_los_extras();
+                databaseAccessExtras.close();
+
+                adapterExtras = new AdaptadorExtras(this, arrayExtras);
+                this.lsvListado.setAdapter(adapterExtras);
                 break;
         }//fin switch
 
