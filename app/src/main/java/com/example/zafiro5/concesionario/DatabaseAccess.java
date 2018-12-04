@@ -174,5 +174,59 @@ public class DatabaseAccess {
         return coche;
     }
 
-}
+    void borrar_coche(int codigo_coche){
+        String[] args = new String[]{String.valueOf(codigo_coche)};
+        database.execSQL("DELETE FROM coches WHERE id_coche=?", args);
+    }
+
+    Extra busqueda_extra(int codigo_extra){
+        Cursor c;
+        //Array donde se devuelven todos los libros
+        Extra extra = new Extra();
+
+        c = database.rawQuery("SELECT * FROM extras WHERE id_extra = " + codigo_extra, null);
+
+        //Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+
+                extra = (new Extra(c.getInt(0),c.getString(1),c.getInt(2)));
+
+            } while(c.moveToNext());
+        }
+        //cerramos el cursor
+        c.close();
+
+        //devolvemos el array
+        return extra;
+    }
+
+    int total_extras() {
+        Cursor c;
+        //controlador
+
+        //definimos el cursor
+
+        int numero_extras = 0;
+        //definimos la sentencia sql en una cadena
+
+        String[] valores_recuperar = {"id_extra", "nombre", "precio"};
+        //Ejecutamos la cadena
+        c = database.query("extras", valores_recuperar, null, null, null, null, null, null);
+
+        if (c != null) {
+            numero_extras = c.getCount();
+        }
+
+        //cerramos el cursor y el SQLiteDatabase
+        c.close();
+        database.close();
+        //devolvemos el numero de libros
+        return numero_extras;
+
+
+        }
+
+    }
 

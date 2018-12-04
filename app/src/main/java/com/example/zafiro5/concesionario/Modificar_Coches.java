@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -23,6 +24,7 @@ public class Modificar_Coches extends AppCompatActivity {
     EditText edtModelo;
     EditText edtPrecio;
     EditText edtDescripcion;
+    Button btnGuardar;
 
     Coche coche;
 
@@ -34,29 +36,16 @@ public class Modificar_Coches extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_coches);
 
+        Button btnGuardar = (Button)findViewById(R.id.btnGuardar);
         ImageView imvImagen = (ImageView)findViewById(R.id.imvImagen);
         EditText edtMarca = (EditText)findViewById(R.id.edtMarca);
         EditText edtModelo = (EditText)findViewById(R.id.edtModelo);
         EditText edtPrecio = (EditText)findViewById(R.id.edtPrecio);
         EditText edtDescripcion = (EditText)findViewById(R.id.edtDescripcion);
 
-        posicion_lista = getIntent().getIntExtra("idcoche", 0);
+        rellenar_datos();
 
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
-        databaseAccess.open();
-        coche = databaseAccess.busqueda_coche(posicion_lista);
-
-        edtMarca.setText(coche.getMarca_coche());
-        edtModelo.setText(coche.getModelo_coche());
-
-        ByteArrayInputStream imageStream = new ByteArrayInputStream(coche.getImagen_coche());
-        Bitmap imagen= BitmapFactory.decodeStream(imageStream);
-        imvImagen.setImageBitmap(imagen);
-
-        edtPrecio.setText(String.valueOf(coche.getPrecio_coche()));
-        edtDescripcion.setText(coche.getDescripcion_coche());
-        databaseAccess.close();
-
+        btnGuardar.setEnabled(false);
         edtMarca.setEnabled(false);
         edtModelo.setEnabled(false);
         edtPrecio.setEnabled(false);
@@ -95,25 +84,64 @@ public class Modificar_Coches extends AppCompatActivity {
                 break;
             case R.id.menu_modificar_eliminar:
                 Log.i("Eliminar", "Has pulsado eliminar.");
-
+                eliminar_coche();
                 break;
             case R.id.menu_modificar_presupuesto:
                 Log.i("Crear Presupuesto", "Has pulsado Crear presupuesto");
-
+                Intent selecExtras = new Intent(getApplicationContext(), SeleccionExtras.class);
+                selecExtras.putExtra("idcoche", posicion_lista);
+                startActivityForResult(selecExtras, 1);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void recogerDatos(int pos){
-
+    public void activar_campos(){
+        Button btnGuardar = findViewById(R.id.btnGuardar);
+        btnGuardar.setEnabled(true);
+        EditText edtMarca = findViewById(R.id.edtMarca);
+        edtMarca.setEnabled(true);
+        EditText edtModelo = findViewById(R.id.edtModelo);
+        edtModelo.setEnabled(true);
+        EditText edtPrecio = findViewById(R.id.edtPrecio);
+        edtPrecio.setEnabled(true);
+        EditText edtDescripcion = findViewById(R.id.edtDescripcion);
+        edtDescripcion.setEnabled(true);
     }
 
-    public void activar_campos(){
-        edtMarca.setEnabled(true);
-        edtModelo.setEnabled(true);
-        edtPrecio.setEnabled(true);
-        edtDescripcion.setEnabled(true);
+    public void rellenar_datos(){
+        ImageView imvImagen = (ImageView)findViewById(R.id.imvImagen);
+        EditText edtMarca = (EditText)findViewById(R.id.edtMarca);
+        EditText edtModelo = (EditText)findViewById(R.id.edtModelo);
+        EditText edtPrecio = (EditText)findViewById(R.id.edtPrecio);
+        EditText edtDescripcion = (EditText)findViewById(R.id.edtDescripcion);
+
+        posicion_lista = getIntent().getIntExtra("idcoche", 0);
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        coche = databaseAccess.busqueda_coche(posicion_lista);
+
+        edtMarca.setText(coche.getMarca_coche());
+        edtModelo.setText(coche.getModelo_coche());
+
+        ByteArrayInputStream imageStream = new ByteArrayInputStream(coche.getImagen_coche());
+        Bitmap imagen= BitmapFactory.decodeStream(imageStream);
+        imvImagen.setImageBitmap(imagen);
+
+        edtPrecio.setText(String.valueOf(coche.getPrecio_coche()));
+        edtDescripcion.setText(coche.getDescripcion_coche());
+        databaseAccess.close();
+    }
+
+    public void eliminar_coche(){
+        posicion_lista = getIntent().getIntExtra("idcoche", 0);
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        databaseAccess.borrar_coche(posicion_lista);
+        databaseAccess.close();
+        Intent vuelta = new Intent(getApplicationContext(), Principal.class);
+        startActivityForResult(vuelta, 3);
     }
 
 }

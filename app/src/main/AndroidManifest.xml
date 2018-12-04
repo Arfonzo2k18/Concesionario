@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".NuevoCoche" />
         <activity android:name=".Modificar_Coches"></activity>
+        <activity android:name=".SeleccionExtras"></activity>
     </application>
 
 </manifest>
