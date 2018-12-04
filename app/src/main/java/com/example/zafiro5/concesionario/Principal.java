@@ -32,6 +32,8 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
     private AdaptadorCoches adapter;
 
     private AdaptadorExtras adapterExtras;
+
+    public static Coche vehiculo;
     /*
        VARIABLE QUE INDICA QUE HAY CARGADO EN EL LISTVIEW.
        TAMBIÉN SE UTILIZA PARA DESHABILITAR LOS ITEMS DEL MENÚ.
@@ -124,7 +126,9 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent actModificar = new Intent(getApplicationContext(), Modificar_Coches.class);
-        startActivityForResult(actModificar, position);
+        actModificar.putExtra("idcoche", arrayCoches.get(position).getCod_coche());
+        startActivityForResult(actModificar, 3);
+
     }
 
     //MÉTODO PARA CARGAR AL LISTVIEW EL ADAPTADOR DE COCHES NUEVOS

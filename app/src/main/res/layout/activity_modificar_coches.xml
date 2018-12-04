@@ -31,9 +31,8 @@
 
             <ImageView
                 android:id="@+id/imvImagen"
-                android:layout_width="113dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="135dp"
                 tools:srcCompat="@drawable/foto" />
         </LinearLayout>
 
@@ -131,10 +130,11 @@
 
             <EditText
                 android:id="@+id/edtDescripcion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="149dp"
+                android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textMultiLine" />
 
         </LinearLayout>
 

@@ -151,5 +151,28 @@ public class DatabaseAccess {
         return arrayCoches;
     }
 
+    Coche busqueda_coche(int codigo_coche){
+        Cursor c;
+        //Array donde se devuelven todos los libros
+        Coche coche = new Coche();
+
+        c = database.rawQuery("SELECT marca, modelo, imagen, precio, descripcion, nuevo FROM coches WHERE id_coche = " + codigo_coche, null);
+
+        //Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+
+                coche = (new Coche(c.getString(0),c.getString(1),c.getBlob(2),c.getDouble(3),c.getString(4),c.getInt(5)));
+
+            } while(c.moveToNext());
+        }
+        //cerramos el cursor
+        c.close();
+
+        //devolvemos el array
+        return coche;
+    }
+
 }
 
