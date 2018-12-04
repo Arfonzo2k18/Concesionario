@@ -26,6 +26,15 @@ public class Coche {
         this.coche_usado = coche_usado;
     }
 
+    Coche(String marca_coche, String modelo_coche, byte[] imagen_coche, double precio_coche, String descripcion_coche, int coche_usado){
+        this.marca_coche = marca_coche;
+        this.modelo_coche = modelo_coche;
+        this.imagen_coche = imagen_coche;
+        this.precio_coche = precio_coche;
+        this.descripcion_coche = descripcion_coche;
+        this.coche_usado = coche_usado;
+    }
+
     public int getCod_coche() {
         return cod_coche;
     }

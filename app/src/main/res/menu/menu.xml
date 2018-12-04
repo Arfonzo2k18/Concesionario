@@ -4,6 +4,7 @@
 
     <item
         android:id="@+id/menu_coches_nuevos"
+        android:enabled="true"
         android:title="Coches Nuevos" />
 
     <item

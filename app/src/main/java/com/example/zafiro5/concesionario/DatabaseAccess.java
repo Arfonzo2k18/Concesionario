@@ -1,10 +1,12 @@
 package com.example.zafiro5.concesionario;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 
 public class DatabaseAccess {
@@ -128,6 +130,25 @@ public class DatabaseAccess {
 
         //devolvemos el array
         return arrayExtras;
+    }
+
+    ArrayList<Coche> crear_nuevo_coche(Coche nuevo_coche){
+        ArrayList<Coche> arrayCoches = new ArrayList<>();
+
+        if(database != null){
+            ContentValues valores = new ContentValues();
+            valores.put("marca", nuevo_coche.getMarca_coche());
+            valores.put("modelo", nuevo_coche.getModelo_coche());
+            valores.put("imagen", nuevo_coche.getImagen_coche());
+            valores.put("precio", nuevo_coche.getPrecio_coche());
+            valores.put("descripcion", nuevo_coche.getDescripcion_coche());
+            valores.put("nuevo", nuevo_coche.getCoche_usado());
+            //insertamos en la base de datos en la tabla libros
+            database.insert("coches", null, valores);
+            database.close();
+        }
+
+        return arrayCoches;
     }
 }
 
