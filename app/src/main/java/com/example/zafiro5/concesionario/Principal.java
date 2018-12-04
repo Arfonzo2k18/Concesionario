@@ -123,7 +123,8 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
     //MÉTODO PARA SABER EN QUÉ ELEMENTO DEL LISTVIEW HEMOS PULSADO.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent actModificar = new Intent(getApplicationContext(), Modificar_Coches.class);
+        startActivityForResult(actModificar, position);
     }
 
     //MÉTODO PARA CARGAR AL LISTVIEW EL ADAPTADOR DE COCHES NUEVOS

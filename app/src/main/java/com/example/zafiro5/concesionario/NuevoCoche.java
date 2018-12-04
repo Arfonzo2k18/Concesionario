@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -30,9 +31,10 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
     private Switch swNuevo;
     private boolean estado_switch = false;
     private ImageView imvImagen;
-    private Button btnHacerFoto, btnCrear;
+    private Button btnHacerFoto, btnCrear, btnGaleria;
     private byte[] foto_coche;
 
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,9 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
         swNuevo = (Switch)findViewById(R.id.swNuevo);
         btnCrear = (Button)findViewById(R.id.btnCrear);
         btnHacerFoto = (Button)findViewById(R.id.btnHacerFoto);
+        btnGaleria = (Button)findViewById(R.id.btnGaleria);
 
+        btnGaleria.setOnClickListener(this);
         btnHacerFoto.setOnClickListener(this);
         btnCrear.setOnClickListener(this);
 
@@ -87,6 +91,12 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 0);
             }
+        }
+
+        if(view.getId()==findViewById(R.id.btnGaleria).getId()){
+            Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            galeria.setType("image/*");
+            startActivityForResult(galeria, 1);
         }
 
         if(view.getId()==findViewById(R.id.btnCrear).getId()){
@@ -133,7 +143,7 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
                 nuevo = 0;
             }
 
-            // COMPROBAMOS QUE LA LONGITUD
+            // COMPROBAMOS QUE LOS CAMPOS TENGAN CONTENIDO PARA PODER CREAR EL NUEVO COCHE.
             if (marca_coche.trim().length() != 0 && modelo_coche.trim().length() != 0 && precio_coche != 0.0 && descripcion_coche.trim().length() != 0) {
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
                 databaseAccess.open();
@@ -143,14 +153,15 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
                 Toast toast1 = Toast.makeText(getApplicationContext(), "El coche se ha creado correctamente.", Toast.LENGTH_LONG);
                 toast1.show();
 
+                // SI EL SWITCH ESTÁ MARCADO, NOS APARECERÁ EL LISTADO DE COCHES NUEVOS EN LA ACTIVIDAD PRINCIPAL.
                 if (nuevo == 1) {
                     Intent Principal = new Intent(getApplicationContext(), Principal.class);
                     startActivityForResult(Principal, 3);
-                } else {
+                } else { // SI NO ESTÁ MARCADO, NOS APARECERÁ EL LISTADO DE COCHES USADOS EN LA ACTIVIDAD PRINCIPAL.
                     Intent Principal = new Intent(getApplicationContext(), Principal.class);
                     startActivityForResult(Principal, 4);
                 }
-            } else {
+            } else { // SI NOS HEMOS DEJADO ALGÚN CAMPO SIN RELLENAR, APARECERÁ UN FLOAT ADVIRTIENDOLO Y NO PODREMOS CREAR EL COCHE HASTA QUE NO ESTÉN LOS CAMPOS COMPLETOS.
                 Snackbar.make(view, "Has dejado algún campo sin rellenar. Por favor, rellena todos los campos.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -175,11 +186,39 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
     // MÉTODO PARA TRANSFORMAR LA IMAGEN QUE TOMAMOS EN UN ARRAY DE BYTES DE SALIDA.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-        imvImagen.setImageBitmap(bitmap);
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        foto_coche = stream.toByteArray();
+        // SI EL CÓDIGO RE PETICIÓN ES 0, LA IMAGEN VIENE DE LA CÁMARA DE FOTOS.
+        if(requestCode == 0) {
+            // CREAMOS UN MAPA DE BITS CON LOS DATOS QUE HEMOS RECOGIDO DE LA CÁMARA DE FOTOS.
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            // PONEMOS EL MAPA DE BITS EN EL IMAGEVIEW.
+            imvImagen.setImageBitmap(bitmap);
+            // CREAMOS UN ARRAY DE BYTES DE SALIDA.
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // COMPRIMIMOS EL MAPA DE BITS EN PNG Y LA VARIABLE FOTO_COCHE TOMA EL VALOR DEL FLUJO DE SALIDA DE ARRAY DE BYTES.
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            foto_coche = stream.toByteArray();
+        }
+
+        // SI EL CÓDIGO DE PETICIÓN ES 1, LA IMAGEN VIENE DE LA GALERÍA DE IMÁGENES.
+        if(requestCode == 1){
+            // RECOGEMOS LOS DATOS DE LA GALERÍA.
+            imageUri = data.getData();
+            // PONEMOS LOS DATOS RECOGIDOS EN EL IMAGEVIEW.
+            imvImagen.setImageURI(imageUri);
+
+            // A PARTIR DEL IMAGEVIEW CREAMOS UN DIBUJO EN LA CACHÉ.
+            imvImagen.buildDrawingCache();
+            // CREAMOS UN MAPA DE BITS A PARTIR DEL DIBUJO DE LA CACHÉ.
+            Bitmap bitmapgaleria = imvImagen.getDrawingCache();
+
+            // CREAMOS UN ARRAY DE BYTES DE SALIDA.
+            ByteArrayOutputStream galeriastream = new ByteArrayOutputStream();
+            // COMPRIMIMOS EL MAPA DE BITS CREADO ANTERIORMENTE EN PNG, PÁSANDOLE LOS DATOS DEL ARRAY DE BYTE DE SALIDA.
+            bitmapgaleria.compress(Bitmap.CompressFormat.PNG, 100, galeriastream);
+            // LA VARIABLE FOTO_COCHE TOMA EL VALOR DEL ARRAY DE BYTES DE SALIDA.
+            foto_coche = galeriastream.toByteArray();
+
+        }
     }
 }

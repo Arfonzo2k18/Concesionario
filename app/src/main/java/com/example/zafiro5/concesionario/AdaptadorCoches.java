@@ -50,6 +50,7 @@ public class AdaptadorCoches extends BaseAdapter {
 
         Coche dir = items.get(position);
 
+        // CARGAMOS LOS DATOS DE LOS COCHES EN LOS TEXTVIEW Y TRANSFORMAMOS LOS DATOS ENTEROS EN STRING.
         TextView txvMarca_coche = (TextView) v.findViewById(R.id.txvMarca);
         txvMarca_coche.setText(dir.getMarca_coche());
 
@@ -64,9 +65,11 @@ public class AdaptadorCoches extends BaseAdapter {
             txvUsado.setText("Si");
         }
 
+        // TRANSFORMAMOS EL DATO TIPO BLOB EN UN ARRAY DE BYTES DE ENTRADA.
         ByteArrayInputStream imageStream = new ByteArrayInputStream(dir.getImagen_coche());
+        // CREAMOS EL BITMAP IMAGEN Y DECODIFICAMOS EL FLUJO DE ENTRADA CREADO ANTERIORMENTE.
         Bitmap imagen= BitmapFactory.decodeStream(imageStream);
-
+        // PONEMOS EL BITMAP EN EL IMAGENVIEW
         ImageView imvImagen = (ImageView) v.findViewById(R.id.imvImagen);
         imvImagen.setImageBitmap(imagen);
 

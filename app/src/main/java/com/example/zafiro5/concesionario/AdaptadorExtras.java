@@ -47,7 +47,7 @@ public class AdaptadorExtras extends BaseAdapter {
             LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inf.inflate(R.layout.layout_extras, null);
         }
-
+        // CARGO LOS DATOS DE LOS EXTRAS EN SUS CORRESPONDIENTES TEXTVIEW
         Extra dir = items.get(position);
 
         TextView txvNombreExtra = (TextView) v.findViewById(R.id.txvNombreExtra);
