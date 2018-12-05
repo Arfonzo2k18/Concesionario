@@ -204,13 +204,8 @@ public class DatabaseAccess {
 
     int total_extras() {
         Cursor c;
-        //controlador
-
-        //definimos el cursor
-
         int numero_extras = 0;
         //definimos la sentencia sql en una cadena
-
         String[] valores_recuperar = {"id_extra", "nombre", "precio"};
         //Ejecutamos la cadena
         c = database.query("extras", valores_recuperar, null, null, null, null, null, null);
@@ -222,11 +217,61 @@ public class DatabaseAccess {
         //cerramos el cursor y el SQLiteDatabase
         c.close();
         database.close();
-        //devolvemos el numero de libros
+
         return numero_extras;
+    }
 
+    void insertar_extras(int cod_coche, int cod_extra){
+        Cursor c;
 
+        if(database != null){
+            ContentValues valores = new ContentValues();
+            valores.put("fk_id_coche", cod_coche);
+            valores.put("fk_id_extra", cod_extra);
+            //insertamos en la base de datos en la tabla libros
+            database.insert("extras_en_coches", null, valores);
+            database.close();
         }
 
     }
+
+    void modificar_coche(int codigo_coche, String marca_coche, String modelo_coche, double precio_coche, String descripcion_coche){
+        if(database != null) {
+            ContentValues valores = new ContentValues();
+            valores.put("marca", marca_coche);
+            valores.put("modelo", modelo_coche);
+            valores.put("precio", precio_coche);
+            valores.put("descripcion", descripcion_coche);
+            database.update("coches", valores, "id_coche = " + codigo_coche, null);
+
+        }
+    }
+
+    ArrayList<Extra> generar_informe(int codigo_coche){
+
+        ArrayList<Extra> arrayExtras = new ArrayList<Extra>();
+
+        Cursor c;
+
+        c = database.rawQuery("SELECT id_extra, nombre FROM extras\n" +
+                "        INNER JOIN extras_en_coches ON fk_id_extra = id_extra\n" +
+                "        INNER JOIN coches ON id_coche = fk_id_coche\n" +
+                "        where id_coche = " + codigo_coche, null);
+
+        //Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+
+                arrayExtras.add(new Extra(c.getInt(0),c.getString(1),c.getDouble(2)));
+
+            } while(c.moveToNext());
+        }
+        //cerramos el cursor
+        c.close();
+
+        return arrayExtras;
+    }
+
+}
 

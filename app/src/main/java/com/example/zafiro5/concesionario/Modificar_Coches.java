@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +18,7 @@ import android.widget.ImageView;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
-public class Modificar_Coches extends AppCompatActivity {
+public class Modificar_Coches extends AppCompatActivity implements View.OnClickListener {
 
     ImageView imvImagen;
     EditText edtMarca;
@@ -42,6 +43,8 @@ public class Modificar_Coches extends AppCompatActivity {
         EditText edtModelo = (EditText)findViewById(R.id.edtModelo);
         EditText edtPrecio = (EditText)findViewById(R.id.edtPrecio);
         EditText edtDescripcion = (EditText)findViewById(R.id.edtDescripcion);
+
+        btnGuardar.setOnClickListener(this);
 
         rellenar_datos();
 
@@ -144,4 +147,29 @@ public class Modificar_Coches extends AppCompatActivity {
         startActivityForResult(vuelta, 3);
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view.getId()==findViewById(R.id.btnGuardar).getId()){
+            modificar_datos();
+        }
+    }
+
+    public void modificar_datos(){
+        EditText edtMarca = (EditText)findViewById(R.id.edtMarca);
+        EditText edtModelo = (EditText)findViewById(R.id.edtModelo);
+        EditText edtPrecio = (EditText)findViewById(R.id.edtPrecio);
+        EditText edtDescripcion = (EditText)findViewById(R.id.edtDescripcion);
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        String marca = edtMarca.getText().toString();
+        String modelo = edtModelo.getText().toString();
+        Double precio = Double.parseDouble(edtPrecio.getText().toString());
+        String descripcion = edtDescripcion.getText().toString();
+
+        databaseAccess.open();
+        databaseAccess.modificar_coche(posicion_lista, marca, modelo, precio, descripcion);
+        databaseAccess.close();
+        Intent vuelta = new Intent(getApplicationContext(), Principal.class);
+        startActivityForResult(vuelta, 3);
+    }
 }
