@@ -132,6 +132,29 @@ public class DatabaseAccess {
         return arrayExtras;
     }
 
+    ArrayList<Data> todos_los_extras_checkbox(){
+        Cursor c;
+        //Array donde se devuelven todos los libros
+        ArrayList<Data> arrayExtras = new ArrayList<Data>();
+
+        c = database.rawQuery("SELECT * FROM extras", null);
+
+        //Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+
+                arrayExtras.add(new Data(c.getInt(0),c.getString(1),c.getDouble(2)));
+
+            } while(c.moveToNext());
+        }
+        //cerramos el cursor
+        c.close();
+
+        //devolvemos el array
+        return arrayExtras;
+    }
+
     ArrayList<Coche> crear_nuevo_coche(Coche nuevo_coche){
         ArrayList<Coche> arrayCoches = new ArrayList<>();
 
@@ -222,8 +245,6 @@ public class DatabaseAccess {
     }
 
     void insertar_extras(int cod_coche, int cod_extra){
-        Cursor c;
-
         if(database != null){
             ContentValues valores = new ContentValues();
             valores.put("fk_id_coche", cod_coche);
@@ -232,7 +253,6 @@ public class DatabaseAccess {
             database.insert("extras_en_coches", null, valores);
             database.close();
         }
-
     }
 
     void modificar_coche(int codigo_coche, String marca_coche, String modelo_coche, double precio_coche, String descripcion_coche){
@@ -253,9 +273,9 @@ public class DatabaseAccess {
 
         Cursor c;
 
-        c = database.rawQuery("SELECT id_extra, nombre FROM extras\n" +
-                "        INNER JOIN extras_en_coches ON fk_id_extra = id_extra\n" +
-                "        INNER JOIN coches ON id_coche = fk_id_coche\n" +
+        c = database.rawQuery("SELECT id_extra, nombre FROM extras " +
+                "        INNER JOIN extras_en_coches ON fk_id_extra = id_extra " +
+                "        INNER JOIN coches ON id_coche = fk_id_coche " +
                 "        where id_coche = " + codigo_coche, null);
 
         //Nos aseguramos de que existe al menos un registro
@@ -271,6 +291,28 @@ public class DatabaseAccess {
         c.close();
 
         return arrayExtras;
+    }
+
+    int contador_informe(int codigo_coche){
+        Cursor c;
+        int numero_extras = 0;
+        //definimos la sentencia sql en una cadena
+        String[] valores_recuperar = {"fk_id_coche", "fk_id_extra"};
+        //Ejecutamos la cadena
+        c = database.rawQuery("SELECT id_extra, nombre FROM extras " +
+                "        INNER JOIN extras_en_coches ON fk_id_extra = id_extra " +
+                "        INNER JOIN coches ON id_coche = fk_id_coche " +
+                "        where id_coche = " + codigo_coche, null);
+
+        if (c != null) {
+            numero_extras = c.getCount();
+        }
+
+        //cerramos el cursor y el SQLiteDatabase
+        c.close();
+        database.close();
+
+        return numero_extras;
     }
 
 }

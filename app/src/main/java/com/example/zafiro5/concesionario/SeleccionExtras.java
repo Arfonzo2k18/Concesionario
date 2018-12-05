@@ -2,26 +2,25 @@ package com.example.zafiro5.concesionario;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
+import android.widget.Adapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SeleccionExtras extends AppCompatActivity {
 
     TextView txvMarca, txvModelo;
 
-    LinearLayout lytVertical;
+    ListView lstListado;
 
-    CheckBox cb;
+    ArrayList<Data> arrayExtras = new ArrayList<Data>();
 
     private int posicion_lista;
 
@@ -29,9 +28,13 @@ public class SeleccionExtras extends AppCompatActivity {
 
     Extra extra;
 
-    ArrayList<Extra> arrayAux = new ArrayList<Extra>();
+    Data data;
 
-    private int totalextras;
+    AdaptadorExtras_Checkbox adapter;
+
+    List<Data> itemList = new ArrayList<Data>();
+
+   // private int totalextras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +43,9 @@ public class SeleccionExtras extends AppCompatActivity {
 
         TextView txvMarca = (TextView)findViewById(R.id.txvMarca);
         TextView txvModelo = (TextView)findViewById(R.id.txvModelo);
+        ListView lstListado = (ListView)findViewById(R.id.lstListado);
 
-        // CREO UN LAYOUT VERTICAL
-        LinearLayout lytVertical = (LinearLayout) findViewById(R.id.lytVertical);
+
 
         // RECOJO LA POSICION DEL COCHE QUE SELECCIONÉ EN LA ACTIVIDAD PRINCIPAL
         posicion_lista = getIntent().getIntExtra("idcoche", 0);
@@ -58,6 +61,8 @@ public class SeleccionExtras extends AppCompatActivity {
         txvMarca.setText(coche.getMarca_coche());
         txvModelo.setText(coche.getModelo_coche());
 
+        // CERRAMOS CONEXION CON LA BDD
+        databaseAccess.close();
         //CREAMOS UN OBJETO DE LA CLASE TOOLBAR LLAMADO TOOLBAR.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -70,25 +75,15 @@ public class SeleccionExtras extends AppCompatActivity {
         //PONEMOS LA TOOLBAR EN EL SITIO DE LA TOOLBAR POR DEFECTO.
         setSupportActionBar(toolbar);
 
+        DatabaseAccess databaseAccessExtras = DatabaseAccess.getInstance(this);
+        databaseAccessExtras.open();
         //RECOJEMOS EL TOTAL DE EXTRAS QUE HAY EN NUESTRA BASE DE DATOS.
-        totalextras = databaseAccess.total_extras();
+        arrayExtras = databaseAccessExtras.todos_los_extras_checkbox();
 
-        // CREAMOS UN CHECKBOX POR CADA EXTRA QUE HAYA EN NUESTRA BDD
-        for(int i=1; i<=totalextras;i++){
+        adapter = new AdaptadorExtras_Checkbox(this, arrayExtras);
+        lstListado.setAdapter(adapter);
 
-            DatabaseAccess dabataseAcessExtra = DatabaseAccess.getInstance(this);
-            dabataseAcessExtra.open();
-            extra = dabataseAcessExtra.busqueda_extra(i);
-            cb = new CheckBox(this);
-
-            cb.setId(i);
-            cb.setText(extra.getNombre_extra() + "     " + String.valueOf(extra.getPrecio_extra()) + "€");
-
-            lytVertical.addView(cb);
-            dabataseAcessExtra.close();
-        }
-        // CERRAMOS CONEXION CON LA BDD
-        databaseAccess.close();
+        databaseAccessExtras.close();
 
         FloatingActionButton fab = findViewById(R.id.my_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -97,36 +92,14 @@ public class SeleccionExtras extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Generar presupuesto.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                        contar_checkbox();
+                        //contar_checkbox();
+                        Intent gen = new Intent(getApplicationContext(), GenerarInforme.class);
+                        gen.putExtra("idcoche", posicion_lista);
+                        startActivityForResult(gen, 3);
             }
         });
 
     }
 
-    public void contar_checkbox(){
-        for(int i=1; i<=totalextras;i++) {
-            if (cb.getId() == i) {
-                if(cb.isChecked()) {
-                    DatabaseAccess databaseaccessCheckbox = DatabaseAccess.getInstance(this);
-                    databaseaccessCheckbox.open();
-                    databaseaccessCheckbox.insertar_extras(posicion_lista, i);
-                    databaseaccessCheckbox.close();
-                }
-            }
-        }
-    }
-
-   /* private View.OnClickListener ckListener = new View.OnClickListener(){
-
-        @Override
-        public void onClick(View view) {
-            boolean checked = ((CheckBox) view).isChecked();
-            if(checked){
-                arrayAux.add(extra);
-            } else {
-                arrayAux.remove(new Extra());
-            }
-        }
-    };*/
 
 }

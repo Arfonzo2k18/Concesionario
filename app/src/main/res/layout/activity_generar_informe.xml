@@ -34,7 +34,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:src="@android:drawable/ic_menu_sort_by_size"
+            android:src="@android:drawable/ic_menu_send"
             android:tint="@android:color/white"
             app:backgroundTint="@color/colorPrimaryDark"
             app:fabSize="mini" />
@@ -97,10 +97,10 @@
             android:orientation="vertical">
 
             <ListView
-                android:id="@+id/lstListado"
+                android:id="@+id/lsvListado"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="60dp" />
+                android:layout_marginBottom="20dp" />
         </LinearLayout>
 
     </RelativeLayout>

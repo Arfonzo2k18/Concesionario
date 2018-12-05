@@ -42,7 +42,7 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_nuevo_coche);
 
         //CREAMOS UN OBJETO DE LA CLASE TOOLBAR LLAMADO TOOLBAR.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         //LE DAMOS A DICHO OBJETO UN TÍTULO.
         toolbar.setTitle("Nuevo Coche");
@@ -50,15 +50,15 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
         //PONEMOS LA TOOLBAR EN EL SITIO DE LA TOOLBAR POR DEFECTO.
         setSupportActionBar(toolbar);
 
-        imvImagen = (ImageView)findViewById(R.id.imvImagen);
-        edtMarca = (EditText)findViewById(R.id.edtMarca);
-        edtModelo = (EditText)findViewById(R.id.edtModelo);
-        edtPrecio = (EditText)findViewById(R.id.edtPrecio);
-        edtDescripcion = (EditText)findViewById(R.id.edtDescripcion);
-        swNuevo = (Switch)findViewById(R.id.swNuevo);
-        btnCrear = (Button)findViewById(R.id.btnCrear);
-        btnHacerFoto = (Button)findViewById(R.id.btnHacerFoto);
-        btnGaleria = (Button)findViewById(R.id.btnGaleria);
+        imvImagen = findViewById(R.id.imvImagen);
+        edtMarca = findViewById(R.id.edtMarca);
+        edtModelo = findViewById(R.id.edtModelo);
+        edtPrecio = findViewById(R.id.edtPrecio);
+        edtDescripcion = findViewById(R.id.edtDescripcion);
+        swNuevo = findViewById(R.id.swNuevo);
+        btnCrear = findViewById(R.id.btnCrear);
+        btnHacerFoto = findViewById(R.id.btnHacerFoto);
+        btnGaleria = findViewById(R.id.btnGaleria);
 
         btnGaleria.setOnClickListener(this);
         btnHacerFoto.setOnClickListener(this);
@@ -69,12 +69,8 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
-                if(swNuevo.isChecked()){
-                    //GUARDO EL VALOR DEL SWITCH EN UNA VARIABLE QUE DESPUÉS SE UTILIZA PARA EL CAMPO "NUEVO" DE LA BASE DE DATOS.
-                    estado_switch = true;
-                }else {
-                    estado_switch = false;
-                }
+                //GUARDO EL VALOR DEL SWITCH EN UNA VARIABLE QUE DESPUÉS SE UTILIZA PARA EL CAMPO "NUEVO" DE LA BASE DE DATOS.
+                estado_switch = swNuevo.isChecked();
             }
         });
 
