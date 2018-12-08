@@ -151,6 +151,21 @@ public class DatabaseAccess {
         return arrayCoches;
     }
 
+    ArrayList<Extra> crear_nuevo_extra(Extra nuevo_extra){
+        ArrayList<Extra> arrayExtras = new ArrayList<>();
+
+        if(database != null){
+            ContentValues valores = new ContentValues();
+            valores.put("nombre", nuevo_extra.getNombre_extra());
+            valores.put("precio", nuevo_extra.getPrecio_extra());
+            //insertamos en la base de datos en la tabla libros
+            database.insert("extras", null, valores);
+            database.close();
+        }
+
+        return arrayExtras;
+    }
+
     Coche busqueda_coche(int codigo_coche){
         Cursor c;
         //Array donde se devuelven todos los libros
@@ -202,36 +217,6 @@ public class DatabaseAccess {
         return extra;
     }
 
-    int total_extras() {
-        Cursor c;
-        int numero_extras = 0;
-        //definimos la sentencia sql en una cadena
-        String[] valores_recuperar = {"id_extra", "nombre", "precio"};
-        //Ejecutamos la cadena
-        c = database.query("extras", valores_recuperar, null, null, null, null, null, null);
-
-        if (c != null) {
-            numero_extras = c.getCount();
-        }
-
-        //cerramos el cursor y el SQLiteDatabase
-        c.close();
-        database.close();
-
-        return numero_extras;
-    }
-
-    void insertar_extras(int cod_coche, int cod_extra){
-        if(database != null){
-            ContentValues valores = new ContentValues();
-            valores.put("fk_id_coche", cod_coche);
-            valores.put("fk_id_extra", cod_extra);
-            //insertamos en la base de datos en la tabla libros
-            database.insert("extras_en_coches", null, valores);
-            database.close();
-        }
-    }
-
     void modificar_coche(int codigo_coche, String marca_coche, String modelo_coche, double precio_coche, String descripcion_coche){
         if(database != null) {
             ContentValues valores = new ContentValues();
@@ -268,28 +253,6 @@ public class DatabaseAccess {
         c.close();
 
         return arrayExtras;
-    }
-
-    int contador_informe(int codigo_coche){
-        Cursor c;
-        int numero_extras = 0;
-        //definimos la sentencia sql en una cadena
-        String[] valores_recuperar = {"fk_id_coche", "fk_id_extra"};
-        //Ejecutamos la cadena
-        c = database.rawQuery("SELECT id_extra, nombre FROM extras " +
-                "        INNER JOIN extras_en_coches ON fk_id_extra = id_extra " +
-                "        INNER JOIN coches ON id_coche = fk_id_coche " +
-                "        where id_coche = " + codigo_coche, null);
-
-        if (c != null) {
-            numero_extras = c.getCount();
-        }
-
-        //cerramos el cursor y el SQLiteDatabase
-        c.close();
-        database.close();
-
-        return numero_extras;
     }
 
 }

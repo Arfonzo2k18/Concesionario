@@ -6,10 +6,9 @@
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
-
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -26,9 +25,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".NuevoCoche" />
-        <activity android:name=".Modificar_Coches"></activity>
-        <activity android:name=".SeleccionExtras"></activity>
-        <activity android:name=".GenerarInforme"></activity>
+        <activity android:name=".Modificar_Coches" />
+        <activity android:name=".SeleccionExtras" />
+        <activity android:name=".GenerarInforme" />
+        <activity android:name=".NuevoExtra"></activity>
     </application>
 
 </manifest>

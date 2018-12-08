@@ -42,7 +42,6 @@ public class SeleccionExtras extends AppCompatActivity {
         // RECOJO LA POSICION DEL COCHE QUE SELECCIONÉ EN LA ACTIVIDAD PRINCIPAL
         posicion_lista = getIntent().getIntExtra("idcoche", 0);
 
-
         /*
         ABRO LA BASE DE DATOS Y HAGO UNA CONSULTA CON LA POSICIÓN GUARDADA DE LA ACTIVIDAD ANTERIOR
         Y DESPUÉS DE ESTO HACEMOS UNA CONSULTA EN LA BDD PARA RELLENAR LOS TEXTVIEW CON LOS

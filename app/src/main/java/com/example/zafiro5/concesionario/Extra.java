@@ -10,6 +10,10 @@ public class Extra {
         this.precio_extra = 0;
         this.nombre_extra = null;
     }
+    Extra(String nombre_extra, double precio_extra){
+        this.nombre_extra = nombre_extra;
+        this.precio_extra = precio_extra;
+    }
 
     Extra(int cod_extra, String nombre_extra, double precio_extra){
         this.cod_extra = cod_extra;

@@ -34,11 +34,13 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
     private AdaptadorExtras adapterExtras;
 
     public static Coche vehiculo;
+
+    // VARIABLE PARA SABER DONDE ESTOY
+    private int wherethefuckiam = 0;
     /*
        VARIABLE QUE INDICA QUE HAY CARGADO EN EL LISTVIEW.
        TAMBIÉN SE UTILIZA PARA DESHABILITAR LOS ITEMS DEL MENÚ.
     */
-    private int recarga = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +81,16 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
                 Snackbar.make(view, "Crear nuevo coche.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 //ABRIR ACTIVIDAD "NUEVO COCHE".
-                Intent Nuevo_Coche = new Intent(getApplicationContext(), NuevoCoche.class);
-                startActivityForResult(Nuevo_Coche, 1);
+                if(wherethefuckiam == 0) {
+                    Intent Nuevo_Coche = new Intent(getApplicationContext(), NuevoCoche.class);
+                    startActivityForResult(Nuevo_Coche, 1);
+                } else if (wherethefuckiam == 1){
+                    Intent Nuevo_Coche = new Intent(getApplicationContext(), NuevoCoche.class);
+                    startActivityForResult(Nuevo_Coche, 1);
+                } else if (wherethefuckiam == 2){
+                    Intent Nuevo_Extra = new Intent(getApplicationContext(), NuevoExtra.class);
+                    startActivityForResult(Nuevo_Extra, 2);
+                }
 
             }
         });
@@ -105,17 +115,20 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
             case R.id.menu_coches_nuevos:
                 Log.i("Coches Nuevos", "Has pulsado Coches Nuevos");
                 actualizar_coches_nuevos();
-                recarga = actualizar_coches_nuevos();
+                wherethefuckiam = actualizar_coches_nuevos();
+                wherethefuckiam = 0;
                 break;
             case R.id.menu_coches_usados:
                 Log.i("Coches Usados", "Has pulsado Coches Usados");
                 actualizar_coches_usados();
-                recarga = actualizar_coches_usados();
+                wherethefuckiam = actualizar_coches_usados();
+                wherethefuckiam = 1;
                 break;
             case R.id.menu_extras:
                 Log.i("Extras", "Has pulsado Extras");
                 actualizar_extras();
-                recarga = actualizar_extras();
+                wherethefuckiam = actualizar_extras();
+                wherethefuckiam = 2;
                 break;
         }
 
@@ -141,7 +154,7 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
         adapter = new AdaptadorCoches(this, arrayCoches);
         this.lsvListado.setAdapter(adapter);
         // VARIABLE PARA SABER EN QUE VENTANA ESTAMOS. (EN ESTE CASO EN LA DE COCHES NUEVOS)
-        recarga = 0;
+        wherethefuckiam = 0;
 
         //CREAMOS UN OBJETO DE LA CLASE TOOLBAR LLAMADO TOOLBAR.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -151,7 +164,7 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
 
         //PONEMOS LA TOOLBAR EN EL SITIO DE LA TOOLBAR POR DEFECTO.
         setSupportActionBar(toolbar);
-        return recarga;
+        return wherethefuckiam;
     }
 
     //MÉTODO PARA CARGAR AL LISTVIEW EL ADAPTADOR DE COCHES USADOS
@@ -164,7 +177,7 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
         adapter = new AdaptadorCoches(this, arrayCoches);
         this.lsvListado.setAdapter(adapter);
         // VARIABLE PARA SABER EN QUE VENTANA ESTAMOS. (EN ESTE CASO EN LA DE COCHES USADOS)
-        recarga = 1;
+        wherethefuckiam = 1;
 
         //CREAMOS UN OBJETO DE LA CLASE TOOLBAR LLAMADO TOOLBAR.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -174,7 +187,7 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
 
         //PONEMOS LA TOOLBAR EN EL SITIO DE LA TOOLBAR POR DEFECTO.
         setSupportActionBar(toolbar);
-        return recarga;
+        return wherethefuckiam;
     }
 
     //MÉTODO PARA CARGAR AL LISTVIEW EL ADAPTADOR DE EXTRAS
@@ -187,7 +200,7 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
         adapterExtras = new AdaptadorExtras(this, arrayExtras);
         this.lsvListado.setAdapter(adapterExtras);
         // VARIABLE PARA SABER EN QUE VENTANA ESTAMOS. (EN ESTE CASO EN LA DE EXTRAS)
-        recarga = 2;
+        wherethefuckiam = 2;
 
         //CREAMOS UN OBJETO DE LA CLASE TOOLBAR LLAMADO TOOLBAR.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -197,7 +210,7 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
 
         //PONEMOS LA TOOLBAR EN EL SITIO DE LA TOOLBAR POR DEFECTO.
         setSupportActionBar(toolbar);
-        return recarga;
+        return wherethefuckiam;
     }
 
     /*
@@ -205,10 +218,10 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
       SI ES NUEVO, NOS CARGA EN EL LISTVIEW LOS COCHES NUEVOS Y SI ES USADO NOS CARGA LOS COCHES USADOS.
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((requestCode == 3) && (resultCode == RESULT_OK)) {
+        if ((requestCode == 1) && (resultCode == RESULT_OK) && (wherethefuckiam == 0)) {
             actualizar_coches_nuevos();
         }
-        if ((requestCode == 4) && (resultCode == RESULT_OK)) {
+        if ((requestCode == 0) && (resultCode == RESULT_OK) && (wherethefuckiam == 1)) {
             actualizar_coches_usados();
         }
     }
@@ -221,17 +234,17 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
     */
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
-        if(recarga == 0) {
+        if(wherethefuckiam == 0) {
             menu.getItem(0).setEnabled(false);
             menu.getItem(1).setEnabled(true);
             menu.getItem(2).setEnabled(true);
         }
-        if(recarga == 1) {
+        if(wherethefuckiam == 1) {
             menu.getItem(1).setEnabled(false);
             menu.getItem(0).setEnabled(true);
             menu.getItem(2).setEnabled(true);
         }
-        if(recarga == 2) {
+        if(wherethefuckiam == 2) {
             menu.getItem(2).setEnabled(false);
             menu.getItem(0).setEnabled(true);
             menu.getItem(1).setEnabled(true);

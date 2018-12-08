@@ -151,11 +151,17 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
 
                 // SI EL SWITCH ESTÁ MARCADO, NOS APARECERÁ EL LISTADO DE COCHES NUEVOS EN LA ACTIVIDAD PRINCIPAL.
                 if (nuevo == 1) {
-                    Intent Principal = new Intent(getApplicationContext(), Principal.class);
-                    startActivityForResult(Principal, 3);
+                   /* Intent Principal = new Intent(getApplicationContext(), Principal.class);
+                    startActivityForResult(Principal, 3);*/
+                    setResult(RESULT_OK);
+                    setResult(nuevo);
+                    finish();
                 } else { // SI NO ESTÁ MARCADO, NOS APARECERÁ EL LISTADO DE COCHES USADOS EN LA ACTIVIDAD PRINCIPAL.
-                    Intent Principal = new Intent(getApplicationContext(), Principal.class);
-                    startActivityForResult(Principal, 4);
+                   /* Intent Principal = new Intent(getApplicationContext(), Principal.class);
+                    startActivityForResult(Principal, 4);*/
+                    setResult(RESULT_OK);
+                    setResult(nuevo);
+                    finish();
                 }
             } else { // SI NOS HEMOS DEJADO ALGÚN CAMPO SIN RELLENAR, APARECERÁ UN FLOAT ADVIRTIENDOLO Y NO PODREMOS CREAR EL COCHE HASTA QUE NO ESTÉN LOS CAMPOS COMPLETOS.
                 Snackbar.make(view, "Has dejado algún campo sin rellenar. Por favor, rellena todos los campos.", Snackbar.LENGTH_LONG)
