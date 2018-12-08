@@ -132,29 +132,6 @@ public class DatabaseAccess {
         return arrayExtras;
     }
 
-    ArrayList<Data> todos_los_extras_checkbox(){
-        Cursor c;
-        //Array donde se devuelven todos los libros
-        ArrayList<Data> arrayExtras = new ArrayList<Data>();
-
-        c = database.rawQuery("SELECT * FROM extras", null);
-
-        //Nos aseguramos de que existe al menos un registro
-        if (c.moveToFirst()) {
-            //Recorremos el cursor hasta que no haya más registros
-            do {
-
-                arrayExtras.add(new Data(c.getInt(0),c.getString(1),c.getDouble(2)));
-
-            } while(c.moveToNext());
-        }
-        //cerramos el cursor
-        c.close();
-
-        //devolvemos el array
-        return arrayExtras;
-    }
-
     ArrayList<Coche> crear_nuevo_coche(Coche nuevo_coche){
         ArrayList<Coche> arrayCoches = new ArrayList<>();
 

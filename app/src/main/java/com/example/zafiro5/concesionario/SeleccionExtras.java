@@ -1,18 +1,18 @@
 package com.example.zafiro5.concesionario;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SeleccionExtras extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class SeleccionExtras extends AppCompatActivity {
 
     ListView lstListado;
 
-    ArrayList<Data> arrayExtras = new ArrayList<Data>();
+    ArrayList<Extra> arrayExtras = new ArrayList<Extra>();
 
     private int posicion_lista;
 
@@ -28,13 +28,7 @@ public class SeleccionExtras extends AppCompatActivity {
 
     Extra extra;
 
-    Data data;
-
-    AdaptadorExtras_Checkbox adapter;
-
-    List<Data> itemList = new ArrayList<Data>();
-
-   // private int totalextras;
+    AdaptadorExtras adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +39,9 @@ public class SeleccionExtras extends AppCompatActivity {
         TextView txvModelo = (TextView)findViewById(R.id.txvModelo);
         ListView lstListado = (ListView)findViewById(R.id.lstListado);
 
-
-
         // RECOJO LA POSICION DEL COCHE QUE SELECCIONÉ EN LA ACTIVIDAD PRINCIPAL
         posicion_lista = getIntent().getIntExtra("idcoche", 0);
+
 
         /*
         ABRO LA BASE DE DATOS Y HAGO UNA CONSULTA CON LA POSICIÓN GUARDADA DE LA ACTIVIDAD ANTERIOR
@@ -78,12 +71,27 @@ public class SeleccionExtras extends AppCompatActivity {
         DatabaseAccess databaseAccessExtras = DatabaseAccess.getInstance(this);
         databaseAccessExtras.open();
         //RECOJEMOS EL TOTAL DE EXTRAS QUE HAY EN NUESTRA BASE DE DATOS.
-        arrayExtras = databaseAccessExtras.todos_los_extras_checkbox();
+        arrayExtras = databaseAccessExtras.todos_los_extras();
 
-        adapter = new AdaptadorExtras_Checkbox(this, arrayExtras);
+        adapter = new AdaptadorExtras(this, arrayExtras);
         lstListado.setAdapter(adapter);
 
+
         databaseAccessExtras.close();
+
+        final boolean[] array = new boolean [adapter.getCount()];
+        lstListado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                if (array[position] == false) {
+                    view.setBackgroundColor(getResources().getColor(R.color.seleccionlista)); //Coloreamos el elemento marcado
+                    array[position] = true;
+                } else if (array[position] == true) {
+                    view.setBackgroundColor(Color.alpha(0));  //Quitamos el color al elemento
+                    array[position] = false;
+                }
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.my_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -92,14 +100,14 @@ public class SeleccionExtras extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Generar presupuesto.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                        //contar_checkbox();
-                        Intent gen = new Intent(getApplicationContext(), GenerarInforme.class);
-                        gen.putExtra("idcoche", posicion_lista);
-                        startActivityForResult(gen, 3);
+                //contar_checkbox();
+                Intent gen = new Intent(getApplicationContext(), GenerarInforme.class);
+                gen.putExtra("idcoche", posicion_lista);
+                gen.putExtra("arrayextras", array);
+                startActivityForResult(gen, 3);
             }
         });
 
     }
-
 
 }
