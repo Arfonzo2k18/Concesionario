@@ -168,8 +168,17 @@ public class Modificar_Coches extends AppCompatActivity implements View.OnClickL
 
         databaseAccess.open();
         databaseAccess.modificar_coche(posicion_lista, marca, modelo, precio, descripcion);
-        databaseAccess.close();
+
         Intent vuelta = new Intent(getApplicationContext(), Principal.class);
-        startActivityForResult(vuelta, 3);
+        if(databaseAccess.busqueda_coche(posicion_lista).getCoche_usado() == 1) {
+            vuelta.putExtra("actividad", 1);
+            databaseAccess.close();
+            startActivityForResult(vuelta, 4);
+        } else {
+            vuelta.putExtra("actividad", 0);
+            databaseAccess.close();
+            startActivityForResult(vuelta, 3);
+        }
+
     }
 }

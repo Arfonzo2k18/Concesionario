@@ -1,5 +1,6 @@
 package com.example.zafiro5.concesionario;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -21,6 +22,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import static android.view.View.INVISIBLE;
+
 public class Principal extends AppCompatActivity implements OnItemClickListener {
 
     ArrayList<Coche> arrayCoches = new ArrayList<Coche>();
@@ -33,10 +36,8 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
 
     private AdaptadorExtras adapterExtras;
 
-    public static Coche vehiculo;
-
     // VARIABLE PARA SABER DONDE ESTOY
-    private int wherethefuckiam = 0;
+    private int wherethefuckiam = 4;
     /*
        VARIABLE QUE INDICA QUE HAY CARGADO EN EL LISTVIEW.
        TAMBIÉN SE UTILIZA PARA DESHABILITAR LOS ITEMS DEL MENÚ.
@@ -59,42 +60,43 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
         //INICIALIZAMOS EL LISTVIEW.
         this.lsvListado = (ListView) findViewById(R.id.lsvListado);
 
-        //CARGAMOS LOS DATOS DE LOS COCHES NUEVOS AL ABRIR LA APLICACION.
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
-        databaseAccess.open();
-        arrayCoches = databaseAccess.todos_los_coches_nuevos();
-        databaseAccess.close();
-
-        //LE PASAMOS AL ADAPTADOR EL ARRAY DE COCHES.
-        adapter = new AdaptadorCoches(this, arrayCoches);
-
-        //INTRODUCIMOS LOS ELEMENTOS DEL ADAPTADOR EN EL LISTVIEW.
-        this.lsvListado.setAdapter(adapter);
+        //CONTROLAMOS DE LA ACTIVIDAD QUE VENIMOS PARA CARGAR LOS DATOS EN EL LISTVIEW
+        wherethefuckiam = getIntent().getIntExtra("actividad", 4);
+        if(wherethefuckiam == 2){
+            actualizar_extras();
+        } else if(wherethefuckiam == 0){
+           actualizar_coches_usados();
+        } else if(wherethefuckiam == 1){
+            actualizar_coches_nuevos();
+        }
         lsvListado.setOnItemClickListener(this);
 
-        //CREAMOS EL BOTON QUE POSTERIORMENTE NOS LLEVA A LA ACTIVIDAD "NUEVO COCHE".
+        //CREAMOS EL BOTON QUE POSTERIORMENTE NOS LLEVA A LA ACTIVIDAD "NUEVO COCHE O NUEVO EXTRA".
         FloatingActionButton fab = findViewById(R.id.my_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             //ONCLICK PARA SABER CUANDO PULSAMOS EL FAB.
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Crear nuevo coche.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 //ABRIR ACTIVIDAD "NUEVO COCHE".
                 if(wherethefuckiam == 0) {
+                    Snackbar.make(view, "Crear nuevo coche.", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                     Intent Nuevo_Coche = new Intent(getApplicationContext(), NuevoCoche.class);
                     startActivityForResult(Nuevo_Coche, 1);
                 } else if (wherethefuckiam == 1){
+                    Snackbar.make(view, "Crear nuevo coche.", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                     Intent Nuevo_Coche = new Intent(getApplicationContext(), NuevoCoche.class);
                     startActivityForResult(Nuevo_Coche, 1);
                 } else if (wherethefuckiam == 2){
+                    Snackbar.make(view, "Crear nuevo extra.", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                     Intent Nuevo_Extra = new Intent(getApplicationContext(), NuevoExtra.class);
                     startActivityForResult(Nuevo_Extra, 2);
                 }
 
             }
         });
-
     }
 
     //MÉTODO PARA CARGAR EL MENÚ EN LA ACTIVIDAD.
@@ -130,6 +132,11 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
                 wherethefuckiam = actualizar_extras();
                 wherethefuckiam = 2;
                 break;
+            case R.id.menu_conocenos:
+                Log.i("Extras", "Has pulsado Extras");
+                Intent Conocenos = new Intent(getApplicationContext(), Mapas.class);
+                startActivityForResult(Conocenos, 2);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -138,9 +145,19 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
     //MÉTODO PARA SABER EN QUÉ ELEMENTO DEL LISTVIEW HEMOS PULSADO.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent actModificar = new Intent(getApplicationContext(), Modificar_Coches.class);
-        actModificar.putExtra("idcoche", arrayCoches.get(position).getCod_coche());
-        startActivityForResult(actModificar, 3);
+        if(wherethefuckiam == 2) {
+            Intent actModificar = new Intent(getApplicationContext(), Modificar_Extras.class);
+            actModificar.putExtra("idextra", arrayExtras.get(position).getCod_extra());
+            startActivityForResult(actModificar, 2);
+        } else if (wherethefuckiam == 1){
+            Intent actModificar = new Intent(getApplicationContext(), Modificar_Coches.class);
+            actModificar.putExtra("idcoche", arrayCoches.get(position).getCod_coche());
+            startActivityForResult(actModificar, 4);
+        } else if (wherethefuckiam == 0){
+            Intent actModificar = new Intent(getApplicationContext(), Modificar_Coches.class);
+            actModificar.putExtra("idcoche", arrayCoches.get(position).getCod_coche());
+            startActivityForResult(actModificar, 3);
+        }
 
     }
 
@@ -154,7 +171,7 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
         adapter = new AdaptadorCoches(this, arrayCoches);
         this.lsvListado.setAdapter(adapter);
         // VARIABLE PARA SABER EN QUE VENTANA ESTAMOS. (EN ESTE CASO EN LA DE COCHES NUEVOS)
-        wherethefuckiam = 0;
+        wherethefuckiam = 1;
 
         //CREAMOS UN OBJETO DE LA CLASE TOOLBAR LLAMADO TOOLBAR.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -177,7 +194,7 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
         adapter = new AdaptadorCoches(this, arrayCoches);
         this.lsvListado.setAdapter(adapter);
         // VARIABLE PARA SABER EN QUE VENTANA ESTAMOS. (EN ESTE CASO EN LA DE COCHES USADOS)
-        wherethefuckiam = 1;
+        wherethefuckiam = 0;
 
         //CREAMOS UN OBJETO DE LA CLASE TOOLBAR LLAMADO TOOLBAR.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -212,20 +229,6 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
         setSupportActionBar(toolbar);
         return wherethefuckiam;
     }
-
-    /*
-      MÉTODO QUE CONTROLA SI EL COCHE QUE HEMOS CREADO ES NUEVO O NO.
-      SI ES NUEVO, NOS CARGA EN EL LISTVIEW LOS COCHES NUEVOS Y SI ES USADO NOS CARGA LOS COCHES USADOS.
-     */
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((requestCode == 1) && (resultCode == RESULT_OK) && (wherethefuckiam == 0)) {
-            actualizar_coches_nuevos();
-        }
-        if ((requestCode == 0) && (resultCode == RESULT_OK) && (wherethefuckiam == 1)) {
-            actualizar_coches_usados();
-        }
-    }
-
     /*
         MÉTODO PARA DESHABILITAR LOS ELEMENTOS DEL MENÚ DEPENDIENDO DEL ADAPTADOR EN EL QUE NOS ENCONTREMOS.
         SI LA VARIABLE ES 0, SIGNIFICA QUE EN EL LISTVIEW ESTÁN CARGADOS LOS DATOS DE LOS COCHES NUEVOS.

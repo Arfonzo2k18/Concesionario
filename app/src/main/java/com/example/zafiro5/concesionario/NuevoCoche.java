@@ -109,20 +109,6 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
             modelo_coche = edtModelo.getText().toString();
 
 
-            // CREAMOS UN MAPA DE BITS CON EL CONTENIDO DE DICHO IMAGE VIEW.
-            imvImagen.buildDrawingCache();
-            Bitmap bmp = imvImagen.getDrawingCache();
-
-            // CREAMOS UN ARRAY DE BYTES DE SALIDA.
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-            // COMPRIMIMOS EN PNG LA FOTO DEL MAPA DE BITS Y LA GUARDAMOS EN EL ARRAY DE BYTES DE SALIDA.
-            bmp.setHeight(180);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-            // PASAMOS AL ARRAY DE BYTES EL FLUJO DE SALIDA TRANSFORMADO AL TIPO ARRAY DE BYTE.
-            foto_coche = stream.toByteArray();
-
             // COMPROBAMOS QUE LA LONGITUD DEL EDIT TEXT PRECIO SEA MAYOR QUE 0. Y LE ASIGNAMOS UN VALOR EN CASO DE QUE NO SEA MAYOR.
             if(edtPrecio.getText().toString().length() != 0) {
                 precio_coche = Double.parseDouble(edtPrecio.getText().toString());
@@ -140,7 +126,7 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
             }
 
             // COMPROBAMOS QUE LOS CAMPOS TENGAN CONTENIDO PARA PODER CREAR EL NUEVO COCHE.
-            if (marca_coche.trim().length() != 0 && modelo_coche.trim().length() != 0 && precio_coche != 0.0 && descripcion_coche.trim().length() != 0) {
+            if (marca_coche.trim().length() != 0 && modelo_coche.trim().length() != 0 && precio_coche != 0.0 && descripcion_coche.trim().length() != 0 && foto_coche != null) {
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
                 databaseAccess.open();
                 databaseAccess.crear_nuevo_coche(new Coche(marca_coche, modelo_coche, foto_coche, precio_coche, descripcion_coche, nuevo));
@@ -150,19 +136,16 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
                 toast1.show();
 
                 // SI EL SWITCH ESTÁ MARCADO, NOS APARECERÁ EL LISTADO DE COCHES NUEVOS EN LA ACTIVIDAD PRINCIPAL.
-                if (nuevo == 1) {
-                   /* Intent Principal = new Intent(getApplicationContext(), Principal.class);
-                    startActivityForResult(Principal, 3);*/
-                    setResult(RESULT_OK);
-                    setResult(nuevo);
-                    finish();
-                } else { // SI NO ESTÁ MARCADO, NOS APARECERÁ EL LISTADO DE COCHES USADOS EN LA ACTIVIDAD PRINCIPAL.
-                   /* Intent Principal = new Intent(getApplicationContext(), Principal.class);
-                    startActivityForResult(Principal, 4);*/
-                    setResult(RESULT_OK);
-                    setResult(nuevo);
-                    finish();
-                }
+                    Intent vuelta = new Intent(getApplicationContext(), Principal.class);
+                    if((nuevo == 1)) {
+                        vuelta.putExtra("actividad", 1);
+                        databaseAccess.close();
+                        startActivityForResult(vuelta, 4);
+                    } else {
+                        vuelta.putExtra("actividad", 0);
+                        databaseAccess.close();
+                        startActivityForResult(vuelta, 3);
+                    }
             } else { // SI NOS HEMOS DEJADO ALGÚN CAMPO SIN RELLENAR, APARECERÁ UN FLOAT ADVIRTIENDOLO Y NO PODREMOS CREAR EL COCHE HASTA QUE NO ESTÉN LOS CAMPOS COMPLETOS.
                 Snackbar.make(view, "Has dejado algún campo sin rellenar. Por favor, rellena todos los campos.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();

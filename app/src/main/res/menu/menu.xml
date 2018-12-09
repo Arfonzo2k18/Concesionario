@@ -14,4 +14,8 @@
     <item
         android:id="@+id/menu_extras"
         android:title="Extras" />
+
+    <item
+        android:id="@+id/menu_conocenos"
+        android:title="Conocenos" />
 </menu>

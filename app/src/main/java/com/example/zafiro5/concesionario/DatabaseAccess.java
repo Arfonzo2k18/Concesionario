@@ -121,7 +121,7 @@ public class DatabaseAccess {
             //Recorremos el cursor hasta que no haya más registros
             do {
 
-                arrayExtras.add(new Extra(c.getInt(0),c.getString(1),c.getDouble(2)));
+                arrayExtras.add(new Extra(c.getInt(0),c.getString(1),c.getDouble(2), c.getString(3)));
 
             } while(c.moveToNext());
         }
@@ -189,6 +189,11 @@ public class DatabaseAccess {
         return coche;
     }
 
+    void borrar_extra(int codigo_extra){
+        String[] args = new String[]{String.valueOf(codigo_extra)};
+        database.execSQL("DELETE FROM extras WHERE id_extra=?", args);
+    }
+
     void borrar_coche(int codigo_coche){
         String[] args = new String[]{String.valueOf(codigo_coche)};
         database.execSQL("DELETE FROM coches WHERE id_coche=?", args);
@@ -206,7 +211,7 @@ public class DatabaseAccess {
             //Recorremos el cursor hasta que no haya más registros
             do {
 
-                extra = (new Extra(c.getInt(0),c.getString(1),c.getInt(2)));
+                extra = (new Extra(c.getInt(0),c.getString(1),c.getDouble(2),c.getString(3)));
 
             } while(c.moveToNext());
         }
@@ -225,6 +230,17 @@ public class DatabaseAccess {
             valores.put("precio", precio_coche);
             valores.put("descripcion", descripcion_coche);
             database.update("coches", valores, "id_coche = " + codigo_coche, null);
+
+        }
+    }
+
+    void modificar_extra(int codigo_extra, String nombre_extra, double precio_extra, String descripcion_extra){
+        if(database != null) {
+            ContentValues valores = new ContentValues();
+            valores.put("nombre", nombre_extra);
+            valores.put("precio", precio_extra);
+            valores.put("descripcion", descripcion_extra);
+            database.update("extras", valores, "id_extra = " + codigo_extra, null);
 
         }
     }

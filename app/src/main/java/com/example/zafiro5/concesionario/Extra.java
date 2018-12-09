@@ -3,7 +3,7 @@ package com.example.zafiro5.concesionario;
 public class Extra {
     private int cod_extra;
     private double precio_extra;
-    private String nombre_extra;
+    private String nombre_extra, descripcion_extra;
 
     Extra(){
         this.cod_extra = 0;
@@ -19,6 +19,13 @@ public class Extra {
         this.cod_extra = cod_extra;
         this.nombre_extra = nombre_extra;
         this.precio_extra = precio_extra;
+    }
+
+    Extra(int cod_extra, String nombre_extra, double precio_extra, String descripcion_extra){
+        this.cod_extra = cod_extra;
+        this.nombre_extra = nombre_extra;
+        this.precio_extra = precio_extra;
+        this.descripcion_extra = descripcion_extra;
     }
 
     public int getCod_extra() {
@@ -45,4 +52,11 @@ public class Extra {
         this.nombre_extra = nombre_extra;
     }
 
+    public String getDescripcion_extra() {
+        return descripcion_extra;
+    }
+
+    public void setDescripcion_extra(String descripcion_extra) {
+        this.descripcion_extra = descripcion_extra;
+    }
 }
