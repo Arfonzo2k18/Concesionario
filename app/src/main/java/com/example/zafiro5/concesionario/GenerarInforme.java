@@ -50,6 +50,7 @@ public class GenerarInforme extends AppCompatActivity implements CuadroDialogos.
         TextView txvTotal = (TextView)findViewById(R.id.txvTotal);
         ListView lsvListado = (ListView)findViewById(R.id.lsvListado);
 
+        //NOS TRAEMOS LA POSICIÓN DEL COCHE SELECCIONADO ANTERIORMENTE Y EL ARRAY DE LOS EXTRAS SELECCIONADOS.
         posicion_lista = getIntent().getIntExtra("idcoche", 0);
         arrayseleccionados = getIntent().getBooleanArrayExtra("arrayextras");
 
@@ -62,23 +63,29 @@ public class GenerarInforme extends AppCompatActivity implements CuadroDialogos.
         //PONEMOS LA TOOLBAR EN EL SITIO DE LA TOOLBAR POR DEFECTO.
         setSupportActionBar(toolbar);
 
+        //ACCEDEMOS A LA BASE DE DATOS PARA TRAERNOS LOS DATOS DEL COCHE SELECCIONADO.
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         coche = databaseAccess.busqueda_coche(posicion_lista);
+        //COLOCAMOS LOS DATOS EN LOS TEXTVIEW.
         txvMarca.setText(coche.getMarca_coche());
         txvModelo.setText(coche.getModelo_coche());
 
         databaseAccess.close();
         DatabaseAccess databaseAcessExtra = DatabaseAccess.getInstance(this);
         databaseAcessExtra.open();
-
+        //NOS TRAEMOS TODOS LOS ESTRAS Y LOS COLOCAMOS EN UN ARRAYLIST DE EXTRAS.
         arrayExtras = databaseAcessExtra.todos_los_extras();
 
+        //CREAMOS UN NUEVO ADAPTADOR DE EXTRAS CON EL ARRAYLIST ANTERIOR.
         adapter = new AdaptadorExtras(this, arrayExtras);
 
+        //CREAMOS UN ENTERO QUE SERÁ LA CANTIDAD DE EXTRAS QUE TENGAMOS EN NUESTRA BDD.
         int tamanio = adapter.getCount();
 
+        //RECORREMOS EL ARRAY DE EXTRAS SELECCIONADOS EN LA ACTIVIDAD ANTERIOR.
         for(i = 0; i < tamanio; i++){
+            //SI LA POSICIÓN ESTÁ SELECCIONADA (ES TRUE), NOS AÑADE DICHO EXTRA A UN ARRAYLIST AUXILIAR DE EXTRAS CREADO ANTERIORMENTE.
             if(arrayseleccionados[i] == true) {
                 if(i == 0) {
                     arrayAux.add(databaseAcessExtra.busqueda_extra(1));
@@ -88,27 +95,37 @@ public class GenerarInforme extends AppCompatActivity implements CuadroDialogos.
             }
         }
 
+        //CREAMOS UN ENTERO QUE RECOGERÁ POSTERIORMENTE EL PRECIO DEL COCHE Y A CONTINUACIÓN LE SUMAREMOS EL PRECIO CON LOS EXTRAS SELECCIONADOS.
         preciototal=coche.getPrecio_coche();
+
+        //VARIABLE PARA QUE EL PRIMER NOMBRE DE EXTRA A LA HORA DE ENVIAR EL MENSAJE POR CORREO NO SEA NULO.
         boolean check = true;
 
         for(i = 0; i < arrayAux.size(); i++){
+            //SUMAMOS EL PRECIO DE LOS EXTRAS SELECIONADOS AL PRECIO TOTAL.
             preciototal = preciototal + arrayAux.get(i).getPrecio_extra();
                 if(check == true) {
+                    //AÑADIMOS EL NOMBRE DE CADA EXTRA SELECCIONADO A UN STRING CREADO ANTERIORMENTE.
                     extras_mensaje = arrayAux.get(i).getNombre_extra();
                     check = false;
-                } else {
+                } else { // CONCADENAMOS LOS NOMBRES DE LOS EXTRAS Y LOS SEPARAMOS CON COMAS.
                     extras_mensaje = extras_mensaje + ", " + arrayAux.get(i).getNombre_extra();
                 }
         }
 
+        //LE ASIGNAMOS EL PRECIO TOTAL AL TEXTVIEW DEL PRECIO.
         txvTotal.setText(preciototal.toString());
 
+        //CREAMOS UN ADAPTADOR CON EL ADAPTADOR AUXILIAR QUE GUARDA LOS EXTRAS SELECCIONADOS.
         adaptadorFinal = new AdaptadorExtras(this, arrayAux);
 
+        //CARGAMOS EL ADAPTADOR EN EL LISTVIEW
         lsvListado.setAdapter(adaptadorFinal);
 
+        //CERRAMOS LA BDD
         databaseAcessExtra.close();
 
+        //CREAMOS UN CONTEXTO SOBRE EL QUE SE VA A EJECUTAR EL CUADRO DE DIÁLOGO AL PULSAR EN EL FAB.
         final Context contexto = this;
 
         FloatingActionButton fab = findViewById(R.id.my_fab);
@@ -123,21 +140,7 @@ public class GenerarInforme extends AppCompatActivity implements CuadroDialogos.
         });
     }
 
-
-        // MÉTODO PARA COMPROBAR LOS PERMISOS DE LA CÁMARA.
-        private boolean checkWritePermission() {
-            int permissionCheck = ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                Log.i("Mensaje", "No se tiene permiso para generar ficheros!.");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 225);
-                return false;
-            } else {
-                Log.i("Mensaje", "Tienes permiso para generar ficheros.");
-                return true;
-            }
-        }
-
+    //MÉTODO PARA CREAR EL CORREO A ENVIAR.
     @Override
     public void ResultadoCuadroDialogo(String nombre, String apellidos, String email, int telefono, String poblacion, String direccion) {
         String[] TO = {email};

@@ -245,31 +245,5 @@ public class DatabaseAccess {
         }
     }
 
-    ArrayList<Extra> generar_informe(int codigo_coche){
-
-        ArrayList<Extra> arrayExtras = new ArrayList<Extra>();
-
-        Cursor c;
-
-        c = database.rawQuery("SELECT id_extra, nombre FROM extras " +
-                "        INNER JOIN extras_en_coches ON fk_id_extra = id_extra " +
-                "        INNER JOIN coches ON id_coche = fk_id_coche " +
-                "        where id_coche = " + codigo_coche, null);
-
-        //Nos aseguramos de que existe al menos un registro
-        if (c.moveToFirst()) {
-            //Recorremos el cursor hasta que no haya más registros
-            do {
-
-                arrayExtras.add(new Extra(c.getInt(0),c.getString(1),c.getDouble(2)));
-
-            } while(c.moveToNext());
-        }
-        //cerramos el cursor
-        c.close();
-
-        return arrayExtras;
-    }
-
 }
 

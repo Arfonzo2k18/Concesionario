@@ -29,8 +29,12 @@ public class Modificar_Coches extends AppCompatActivity implements View.OnClickL
 
     Coche coche;
 
+    ArrayList<Extra> arrayExtras = new ArrayList<>();
 
+    private int codigocoche;
     private int posicion_lista;
+
+    AdaptadorExtras adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class Modificar_Coches extends AppCompatActivity implements View.OnClickL
 
         rellenar_datos();
 
+        codigocoche = getIntent().getIntExtra("esnuevo", 5);
+
         btnGuardar.setEnabled(false);
         edtMarca.setEnabled(false);
         edtModelo.setEnabled(false);
@@ -62,7 +68,6 @@ public class Modificar_Coches extends AppCompatActivity implements View.OnClickL
 
         //PONEMOS LA TOOLBAR EN EL SITIO DE LA TOOLBAR POR DEFECTO.
         setSupportActionBar(toolbar);
-
 
     }
 
@@ -91,14 +96,33 @@ public class Modificar_Coches extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.menu_modificar_presupuesto:
                 Log.i("Crear Presupuesto", "Has pulsado Crear presupuesto");
-                Intent selecExtras = new Intent(getApplicationContext(), SeleccionExtras.class);
-                selecExtras.putExtra("idcoche", posicion_lista);
-                startActivityForResult(selecExtras, 1);
+
+                if(codigocoche == 0) {
+                    Intent selecExtras = new Intent(getApplicationContext(), SeleccionExtras.class);
+                    selecExtras.putExtra("idcoche", posicion_lista);
+                    startActivityForResult(selecExtras, 1);
+                } else {
+                    Intent generarInforme = new Intent(getApplicationContext(), GenerarInforme.class);
+                    generarInforme.putExtra("idcoche", posicion_lista);
+
+                    DatabaseAccess databaseAcessExtra = DatabaseAccess.getInstance(this);
+                    databaseAcessExtra.open();
+                    arrayExtras = databaseAcessExtra.todos_los_extras();
+                    adapter = new AdaptadorExtras(this, arrayExtras);
+                    int tamanio = adapter.getCount();
+                    boolean[] arraybooleanos = new boolean[tamanio];
+                    for(int i = 0; i < tamanio; i++)
+                        arraybooleanos[i] = false;
+                    databaseAcessExtra.close();
+                    generarInforme.putExtra("arrayextras", arraybooleanos);
+                    startActivityForResult(generarInforme, 1);
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    //MÉTODO PARA ACTIVAR LOS EDITTEXT Y EL BOTÓN DE GUARDADO.
     public void activar_campos(){
         Button btnGuardar = findViewById(R.id.btnGuardar);
         btnGuardar.setEnabled(true);
@@ -112,6 +136,7 @@ public class Modificar_Coches extends AppCompatActivity implements View.OnClickL
         edtDescripcion.setEnabled(true);
     }
 
+    //MÉTODO QUE RELLENA LOS CAMPOS CON LOS DATOS DEL COCHE SELECCIONADO.
     public void rellenar_datos(){
         ImageView imvImagen = (ImageView)findViewById(R.id.imvImagen);
         EditText edtMarca = (EditText)findViewById(R.id.edtMarca);
@@ -137,6 +162,7 @@ public class Modificar_Coches extends AppCompatActivity implements View.OnClickL
         databaseAccess.close();
     }
 
+    //MÉTODO PARA ELIMINAR EL COCHE SELECCIONADO.
     public void eliminar_coche(){
         posicion_lista = getIntent().getIntExtra("idcoche", 0);
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
@@ -154,6 +180,7 @@ public class Modificar_Coches extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    //MÉTODO QUE GUARDA LOS DATOS UNA VEZ HAN SIDO MODIFICADOS.
     public void modificar_datos(){
         EditText edtMarca = (EditText)findViewById(R.id.edtMarca);
         EditText edtModelo = (EditText)findViewById(R.id.edtModelo);

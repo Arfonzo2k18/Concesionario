@@ -1,5 +1,6 @@
 package com.example.zafiro5.concesionario;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,8 +61,9 @@ public class NuevoExtra extends AppCompatActivity implements View.OnClickListene
                 databaseAccess.close();
                 Toast toast1 = Toast.makeText(getApplicationContext(), "El extra se ha creado correctamente.", Toast.LENGTH_LONG);
                 toast1.show();
-                setResult(RESULT_OK);
-                finish();
+                Intent vuelta = new Intent(getApplicationContext(), Principal.class);
+                vuelta.putExtra("actividad", 2);
+                startActivityForResult(vuelta, 2);
             } else { // SI NOS HEMOS DEJADO ALGÚN CAMPO SIN RELLENAR, APARECERÁ UN FLOAT ADVIRTIENDOLO Y NO PODREMOS CREAR EL EXTRA HASTA QUE NO ESTÉN LOS CAMPOS COMPLETOS.
                 Snackbar.make(view, "Has dejado algún campo sin rellenar. Por favor, rellena todos los campos.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();

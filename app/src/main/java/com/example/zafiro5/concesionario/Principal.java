@@ -1,12 +1,8 @@
 package com.example.zafiro5.concesionario;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -36,12 +31,11 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
 
     private AdaptadorExtras adapterExtras;
 
-    // VARIABLE PARA SABER DONDE ESTOY
-    private int wherethefuckiam = 4;
     /*
        VARIABLE QUE INDICA QUE HAY CARGADO EN EL LISTVIEW.
        TAMBIÉN SE UTILIZA PARA DESHABILITAR LOS ITEMS DEL MENÚ.
     */
+    private int wherethefuckiam = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,10 +146,12 @@ public class Principal extends AppCompatActivity implements OnItemClickListener 
         } else if (wherethefuckiam == 1){
             Intent actModificar = new Intent(getApplicationContext(), Modificar_Coches.class);
             actModificar.putExtra("idcoche", arrayCoches.get(position).getCod_coche());
+            actModificar.putExtra("esnuevo", wherethefuckiam);
             startActivityForResult(actModificar, 4);
         } else if (wherethefuckiam == 0){
             Intent actModificar = new Intent(getApplicationContext(), Modificar_Coches.class);
             actModificar.putExtra("idcoche", arrayCoches.get(position).getCod_coche());
+            actModificar.putExtra("esnuevo", wherethefuckiam);
             startActivityForResult(actModificar, 3);
         }
 

@@ -81,6 +81,7 @@ public class Modificar_Extras extends AppCompatActivity implements View.OnClickL
         return super.onOptionsItemSelected(item);
     }
 
+    //MÉTODO PARA ACTIVAR LOS EDITTEXT Y EL BOTÓN DE GUARDAR CAMBIOS.
     public void activar_campos(){
         Button btnGuardar = findViewById(R.id.btnGuardar);
         btnGuardar.setEnabled(true);
@@ -92,6 +93,7 @@ public class Modificar_Extras extends AppCompatActivity implements View.OnClickL
         edtDescripcion.setEnabled(true);
     }
 
+    //MÉTODO QUE RELLENA LOS CAMPOS CON LOS DATOS DEL EXTRA SELECCIONADO.
     public void rellenar_datos(){
         EditText edtNombre = (EditText)findViewById(R.id.edtNombre);
         EditText edtPrecio = (EditText)findViewById(R.id.edtPrecio);
@@ -107,6 +109,7 @@ public class Modificar_Extras extends AppCompatActivity implements View.OnClickL
         databaseAccess.close();
     }
 
+    //MÉTODO QUE ELIMINA EL EXTRA SELECCIONADO.
     public void eliminar_extra(){
         final int posicion_lista = getIntent().getIntExtra("idextra", 0);
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
@@ -125,6 +128,7 @@ public class Modificar_Extras extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    //MÉTODO PARA MODIFICAR LOS DATOS EN LA BDD.
     public void modificar_datos(){
         EditText edtNombre = (EditText)findViewById(R.id.edtNombre);
         EditText edtPrecio = (EditText)findViewById(R.id.edtPrecio);

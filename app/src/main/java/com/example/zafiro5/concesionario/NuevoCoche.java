@@ -174,36 +174,45 @@ public class NuevoCoche extends AppCompatActivity implements View.OnClickListene
 
         // SI EL CÓDIGO RE PETICIÓN ES 0, LA IMAGEN VIENE DE LA CÁMARA DE FOTOS.
         if(requestCode == 0) {
-            // CREAMOS UN MAPA DE BITS CON LOS DATOS QUE HEMOS RECOGIDO DE LA CÁMARA DE FOTOS.
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            // PONEMOS EL MAPA DE BITS EN EL IMAGEVIEW.
-            imvImagen.setImageBitmap(bitmap);
-            // CREAMOS UN ARRAY DE BYTES DE SALIDA.
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            // COMPRIMIMOS EL MAPA DE BITS EN PNG Y LA VARIABLE FOTO_COCHE TOMA EL VALOR DEL FLUJO DE SALIDA DE ARRAY DE BYTES.
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            foto_coche = stream.toByteArray();
+            if (data.getExtras() == null){
+                Toast toast = Toast.makeText(getApplicationContext(), "No has hecho ninguna foto.", Toast.LENGTH_LONG);
+                toast.show();
+            } else {
+                // CREAMOS UN MAPA DE BITS CON LOS DATOS QUE HEMOS RECOGIDO DE LA CÁMARA DE FOTOS.
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                // PONEMOS EL MAPA DE BITS EN EL IMAGEVIEW.
+                imvImagen.setImageBitmap(bitmap);
+                // CREAMOS UN ARRAY DE BYTES DE SALIDA.
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                // COMPRIMIMOS EL MAPA DE BITS EN PNG Y LA VARIABLE FOTO_COCHE TOMA EL VALOR DEL FLUJO DE SALIDA DE ARRAY DE BYTES.
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                foto_coche = stream.toByteArray();
+            }
         }
 
         // SI EL CÓDIGO DE PETICIÓN ES 1, LA IMAGEN VIENE DE LA GALERÍA DE IMÁGENES.
         if(requestCode == 1){
-            // RECOGEMOS LOS DATOS DE LA GALERÍA.
-            imageUri = data.getData();
-            // PONEMOS LOS DATOS RECOGIDOS EN EL IMAGEVIEW.
-            imvImagen.setImageURI(imageUri);
+            if (data == null){
+                Toast toast = Toast.makeText(getApplicationContext(), "No has seleccionado ninguna imagen de la galería.", Toast.LENGTH_LONG);
+                toast.show();
+            } else {
+                // RECOGEMOS LOS DATOS DE LA GALERÍA.
+                imageUri = data.getData();
+                // PONEMOS LOS DATOS RECOGIDOS EN EL IMAGEVIEW.
+                imvImagen.setImageURI(imageUri);
 
-            // A PARTIR DEL IMAGEVIEW CREAMOS UN DIBUJO EN LA CACHÉ.
-            imvImagen.buildDrawingCache();
-            // CREAMOS UN MAPA DE BITS A PARTIR DEL DIBUJO DE LA CACHÉ.
-            Bitmap bitmapgaleria = imvImagen.getDrawingCache();
+                // A PARTIR DEL IMAGEVIEW CREAMOS UN DIBUJO EN LA CACHÉ.
+                imvImagen.buildDrawingCache();
+                // CREAMOS UN MAPA DE BITS A PARTIR DEL DIBUJO DE LA CACHÉ.
+                Bitmap bitmapgaleria = imvImagen.getDrawingCache();
 
-            // CREAMOS UN ARRAY DE BYTES DE SALIDA.
-            ByteArrayOutputStream galeriastream = new ByteArrayOutputStream();
-            // COMPRIMIMOS EL MAPA DE BITS CREADO ANTERIORMENTE EN PNG, PÁSANDOLE LOS DATOS DEL ARRAY DE BYTE DE SALIDA.
-            bitmapgaleria.compress(Bitmap.CompressFormat.PNG, 100, galeriastream);
-            // LA VARIABLE FOTO_COCHE TOMA EL VALOR DEL ARRAY DE BYTES DE SALIDA.
-            foto_coche = galeriastream.toByteArray();
-
+                // CREAMOS UN ARRAY DE BYTES DE SALIDA.
+                ByteArrayOutputStream galeriastream = new ByteArrayOutputStream();
+                // COMPRIMIMOS EL MAPA DE BITS CREADO ANTERIORMENTE EN PNG, PÁSANDOLE LOS DATOS DEL ARRAY DE BYTE DE SALIDA.
+                bitmapgaleria.compress(Bitmap.CompressFormat.PNG, 100, galeriastream);
+                // LA VARIABLE FOTO_COCHE TOMA EL VALOR DEL ARRAY DE BYTES DE SALIDA.
+                foto_coche = galeriastream.toByteArray();
+            }
         }
     }
 }

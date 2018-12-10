@@ -7,7 +7,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+// CLASE PARA CREAR EL CUADRO DE DIALOGO
 public class CuadroDialogos {
 
     public interface AcabadoDialogos {
