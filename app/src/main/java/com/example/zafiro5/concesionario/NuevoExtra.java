@@ -12,8 +12,7 @@ import android.widget.Toast;
 
 public class NuevoExtra extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText edtNombre;
-    private EditText edtPrecio;
+    private EditText edtNombre, edtPrecio, edtDescripcion;
     private Button btnCrear;
 
     @Override
@@ -23,6 +22,7 @@ public class NuevoExtra extends AppCompatActivity implements View.OnClickListene
 
         edtNombre = findViewById(R.id.edtNombre);
         edtPrecio = findViewById(R.id.edtPrecio);
+        edtDescripcion = findViewById(R.id.edtDescripcion);
         Button btnCrear = (Button)findViewById(R.id.btnCrear);
 
         btnCrear.setOnClickListener(this);
@@ -42,10 +42,11 @@ public class NuevoExtra extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if(view.getId()==findViewById(R.id.btnCrear).getId()){
-            String nombre;
+            String nombre, descripcion;
             Double precio;
 
             nombre = edtNombre.getText().toString();
+            descripcion = edtDescripcion.getText().toString();
             precio = Double.parseDouble(edtPrecio.getText().toString());
 
             if(edtPrecio.getText().toString().length() != 0) {
@@ -54,10 +55,10 @@ public class NuevoExtra extends AppCompatActivity implements View.OnClickListene
                 precio = 0.0;
             }
 
-            if(nombre.trim().length() != 0 && precio != 0.0){
+            if(nombre.trim().length() != 0 && descripcion.trim().length() != 0 && precio != 0.0){
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
                 databaseAccess.open();
-                databaseAccess.crear_nuevo_extra(new Extra(nombre, precio));
+                databaseAccess.crear_nuevo_extra(new Extra(nombre, precio, descripcion));
                 databaseAccess.close();
                 Toast toast1 = Toast.makeText(getApplicationContext(), "El extra se ha creado correctamente.", Toast.LENGTH_LONG);
                 toast1.show();

@@ -158,6 +158,7 @@ public class DatabaseAccess {
             ContentValues valores = new ContentValues();
             valores.put("nombre", nuevo_extra.getNombre_extra());
             valores.put("precio", nuevo_extra.getPrecio_extra());
+            valores.put("descripcion", nuevo_extra.getDescripcion_extra());
             //insertamos en la base de datos en la tabla libros
             database.insert("extras", null, valores);
             database.close();

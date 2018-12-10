@@ -10,10 +10,6 @@ public class Extra {
         this.precio_extra = 0;
         this.nombre_extra = null;
     }
-    Extra(String nombre_extra, double precio_extra){
-        this.nombre_extra = nombre_extra;
-        this.precio_extra = precio_extra;
-    }
 
     Extra(int cod_extra, String nombre_extra, double precio_extra){
         this.cod_extra = cod_extra;
@@ -23,6 +19,12 @@ public class Extra {
 
     Extra(int cod_extra, String nombre_extra, double precio_extra, String descripcion_extra){
         this.cod_extra = cod_extra;
+        this.nombre_extra = nombre_extra;
+        this.precio_extra = precio_extra;
+        this.descripcion_extra = descripcion_extra;
+    }
+
+    Extra(String nombre_extra, double precio_extra, String descripcion_extra){
         this.nombre_extra = nombre_extra;
         this.precio_extra = precio_extra;
         this.descripcion_extra = descripcion_extra;
