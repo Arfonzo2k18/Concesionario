@@ -11,12 +11,6 @@ public class Extra {
         this.nombre_extra = null;
     }
 
-    Extra(int cod_extra, String nombre_extra, double precio_extra){
-        this.cod_extra = cod_extra;
-        this.nombre_extra = nombre_extra;
-        this.precio_extra = precio_extra;
-    }
-
     Extra(int cod_extra, String nombre_extra, double precio_extra, String descripcion_extra){
         this.cod_extra = cod_extra;
         this.nombre_extra = nombre_extra;
