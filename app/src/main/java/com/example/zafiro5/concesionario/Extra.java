@@ -2,23 +2,24 @@ package com.example.zafiro5.concesionario;
 
 public class Extra {
     private int cod_extra;
-    private double precio_extra;
+    private int precio_extra;
     private String nombre_extra, descripcion_extra;
 
     Extra(){
         this.cod_extra = 0;
         this.precio_extra = 0;
         this.nombre_extra = null;
+        this.descripcion_extra = null;
     }
 
-    Extra(int cod_extra, String nombre_extra, double precio_extra, String descripcion_extra){
+    Extra(int cod_extra, String nombre_extra, int precio_extra, String descripcion_extra){
         this.cod_extra = cod_extra;
         this.nombre_extra = nombre_extra;
         this.precio_extra = precio_extra;
         this.descripcion_extra = descripcion_extra;
     }
 
-    Extra(String nombre_extra, double precio_extra, String descripcion_extra){
+    Extra(String nombre_extra, int precio_extra, String descripcion_extra){
         this.nombre_extra = nombre_extra;
         this.precio_extra = precio_extra;
         this.descripcion_extra = descripcion_extra;
@@ -32,11 +33,11 @@ public class Extra {
         this.cod_extra = cod_extra;
     }
 
-    public double getPrecio_extra() {
+    public int getPrecio_extra() {
         return precio_extra;
     }
 
-    public void setPrecio_extra(double precio_extra) {
+    public void setPrecio_extra(int precio_extra) {
         this.precio_extra = precio_extra;
     }
 

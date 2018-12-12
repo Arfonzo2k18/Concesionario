@@ -43,19 +43,19 @@ public class NuevoExtra extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         if(view.getId()==findViewById(R.id.btnCrear).getId()){
             String nombre, descripcion;
-            Double precio;
+            int precio;
 
             nombre = edtNombre.getText().toString();
             descripcion = edtDescripcion.getText().toString();
-            precio = Double.parseDouble(edtPrecio.getText().toString());
+            precio = Integer.parseInt(edtPrecio.getText().toString());
 
             if(edtPrecio.getText().toString().length() != 0) {
-                precio = Double.parseDouble(edtPrecio.getText().toString());
+                precio = Integer.parseInt(edtPrecio.getText().toString());
             } else {
-                precio = 0.0;
+                precio = 0;
             }
 
-            if(nombre.trim().length() != 0 && descripcion.trim().length() != 0 && precio != 0.0){
+            if(nombre.trim().length() != 0 && descripcion.trim().length() != 0 && precio != 0){
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
                 databaseAccess.open();
                 databaseAccess.crear_nuevo_extra(new Extra(nombre, precio, descripcion));

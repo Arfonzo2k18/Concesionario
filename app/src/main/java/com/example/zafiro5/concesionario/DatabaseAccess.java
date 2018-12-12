@@ -114,14 +114,14 @@ public class DatabaseAccess {
         //Array donde se devuelven todos los libros
         ArrayList<Extra> arrayExtras = new ArrayList<Extra>();
 
-        c = database.rawQuery("SELECT * FROM extras", null);
+        c = database.rawQuery("SELECT id_extra, nombre, precio, descripcion FROM extras", null);
 
         //Nos aseguramos de que existe al menos un registro
         if (c.moveToFirst()) {
             //Recorremos el cursor hasta que no haya más registros
             do {
 
-                arrayExtras.add(new Extra(c.getInt(0),c.getString(1),c.getDouble(2), c.getString(3)));
+                arrayExtras.add(new Extra(c.getInt(0),c.getString(1),c.getInt(2), c.getString(3)));
 
             } while(c.moveToNext());
         }
@@ -212,7 +212,7 @@ public class DatabaseAccess {
             //Recorremos el cursor hasta que no haya más registros
             do {
 
-                extra = (new Extra(c.getInt(0),c.getString(1),c.getDouble(2),c.getString(3)));
+                extra = (new Extra(c.getInt(0),c.getString(1),c.getInt(2),c.getString(3)));
 
             } while(c.moveToNext());
         }
@@ -223,7 +223,7 @@ public class DatabaseAccess {
         return extra;
     }
 
-    void modificar_coche(int codigo_coche, String marca_coche, String modelo_coche, double precio_coche, String descripcion_coche){
+    void modificar_coche(int codigo_coche, String marca_coche, String modelo_coche, Double precio_coche, String descripcion_coche){
         if(database != null) {
             ContentValues valores = new ContentValues();
             valores.put("marca", marca_coche);
@@ -235,7 +235,7 @@ public class DatabaseAccess {
         }
     }
 
-    void modificar_extra(int codigo_extra, String nombre_extra, double precio_extra, String descripcion_extra){
+    void modificar_extra(int codigo_extra, String nombre_extra, int precio_extra, String descripcion_extra){
         if(database != null) {
             ContentValues valores = new ContentValues();
             valores.put("nombre", nombre_extra);

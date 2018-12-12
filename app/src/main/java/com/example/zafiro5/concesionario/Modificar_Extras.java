@@ -135,7 +135,7 @@ public class Modificar_Extras extends AppCompatActivity implements View.OnClickL
         EditText edtDescripcion = (EditText)findViewById(R.id.edtDescripcion);
 
         String nombre = edtNombre.getText().toString();
-        Double precio = Double.parseDouble(edtPrecio.getText().toString());
+        int precio = Integer.parseInt(edtPrecio.getText().toString());
         String descripcion = edtDescripcion.getText().toString();
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
