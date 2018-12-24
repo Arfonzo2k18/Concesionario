@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NuevoCoche">
+    tools:context=".Actividades.Modificar_Coches">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,109 +32,133 @@
             <ImageView
                 android:id="@+id/imvImagen"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="121dp"
                 tools:srcCompat="@drawable/foto" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="200dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="190dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="131dp"
-                android:layout_height="wrap_content"
-                android:text="Marca:"
-                android:textColor="#000"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/edtMarca"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="Marca:"
+                    android:textColor="#fff"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/edtMarca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="250dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="270dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="131dp"
-                android:layout_height="wrap_content"
-                android:text="Modelo:"
-                android:textColor="#000"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/edtModelo"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="Modelo:"
+                    android:textColor="#fff"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/edtModelo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="300dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="131dp"
-                android:layout_height="wrap_content"
-                android:text="Precio:"
-                android:textColor="#000"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/edtPrecio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="number" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="350dp"
-            android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Descripcion:"
-                android:textColor="#000"
-                android:textSize="24sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edtDescripcion"
-                android:layout_width="wrap_content"
-                android:layout_height="149dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textMultiLine" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="Precio:"
+                    android:textColor="#fff"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/edtPrecio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="420dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="Descripcion:"
+                    android:textColor="#fff"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/edtDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textMultiLine" />
+            </LinearLayout>
 
         </LinearLayout>
 
