@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.alfon.concesionario.Actividades.Principal;
+import com.example.alfon.concesionario.R;
+
 public class NuevoExtra extends AppCompatActivity implements View.OnClickListener{
 
     private EditText edtNombre, edtPrecio, edtDescripcion;

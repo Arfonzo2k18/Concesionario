@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.alfon.concesionario.Actividades.Principal;
+import com.example.alfon.concesionario.R;
+
 public class Modificar_Extras extends AppCompatActivity implements View.OnClickListener{
 
     EditText edtNombre, edtPrecio, edtDescripcion;

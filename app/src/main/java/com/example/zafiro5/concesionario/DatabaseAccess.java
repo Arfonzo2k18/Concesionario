@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.alfon.concesionario.BaseDeDatos.DatabaseOpenHelper;
+import com.example.alfon.concesionario.Clases.Coche;
+
 import java.sql.Blob;
 import java.util.ArrayList;
 
