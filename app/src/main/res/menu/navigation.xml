@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navegacion_coche_nuevo"
+        android:icon="@drawable/ic_coche_nuevo"
+        android:title="Coches nuevos" />
+
+    <item
+        android:id="@+id/navegacion_coche_usado"
+        android:icon="@drawable/ic_coche_ocasion"
+        android:title="Coches usados" />
+
+    <item
+        android:id="@+id/navegacion_extras"
+        android:icon="@drawable/ic_ventanilla"
+        android:title="Extras" />
+
+    <item
+        android:id="@+id/navegacion_conocenos"
+        android:icon="@drawable/ic_conocenos"
+        android:title="Conócenos" />
+
+</menu>
